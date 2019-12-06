@@ -3,6 +3,7 @@
 [ExecuteAlways]
 public class DisplayActivator : MonoBehaviour
 {
+
 	private void Start()
 	{
 		Debug.Log($"Display count: {Display.displays.Length}");
@@ -11,4 +12,5 @@ public class DisplayActivator : MonoBehaviour
 			curr.Activate();
 		}
 	}
+
 }
