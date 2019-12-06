@@ -32,11 +32,11 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player1
+  - Player2
+  - Player3
+  - Player4
+  - Seeker
   m_SortingLayers:
   - name: Default
     uniqueID: 0
