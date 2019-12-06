@@ -19,7 +19,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
             ""id"": ""2cfa261b-5467-4a37-b09c-c4a8ea864318"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""Navigate"",
                     ""type"": ""Value"",
                     ""id"": ""6c134622-f826-4004-9987-09139fd1b177"",
                     ""expectedControlType"": ""Vector2"",
@@ -51,7 +51,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -62,7 +62,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -73,7 +73,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -84,7 +84,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -95,7 +95,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -106,7 +106,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -117,7 +117,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KB&M"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -128,7 +128,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KB&M"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -139,7 +139,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KB&M"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -150,7 +150,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KB&M"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -161,7 +161,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -172,7 +172,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -183,7 +183,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -194,7 +194,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -205,7 +205,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -266,64 +266,41 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""870e19b6-9455-4fd5-8909-bc8a38a2f10b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca143d1e-cfe2-434a-9e75-7fb9f3d0d63a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""839332d3-bbea-42df-add1-423ac8d761ce"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Value"",
+                    ""id"": ""67664105-2679-4cea-b225-64c04251a092"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""4d33ccf8-956c-48c2-9b3e-d8aa93872ef1"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""437a0b68-1071-4afb-b40d-79ae22b5b764"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KB&M"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""1758d5b7-877a-4719-9773-52a0dcd0452e"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KB&M"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""dfc2aa8b-a129-4134-91cd-2100aa560725"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KB&M"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""460f2bb3-eacb-4d58-bd36-628462380ab2"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KB&M"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": ""RightStick"",
                     ""id"": ""6148cde4-b4fb-4d2f-83c6-4bfa7e099290"",
@@ -378,6 +355,204 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""MouseLook"",
+                    ""id"": ""7658768a-8f6c-424f-9550-647d8c7ea93c"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""8761c4c0-9f22-42df-bd54-5ef4b9f19b75"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""89f6fa86-e26e-498d-827d-b6542835791e"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""e5c7b77c-d9d7-43f2-9454-ecd347287b6b"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""2a636256-8607-4233-843e-5db737c5d12d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""9ea14d98-fc80-46a7-acb1-eda1d7f3ed6d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""2eff7672-4cfe-4375-9890-8ceeb07755cc"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""207e79e2-d838-4181-b23c-47ad04e57450"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a36eb1d4-0ae3-446d-81f0-bb67ea42e815"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""0651decb-09c2-4124-a9db-bc37e1b563ed"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""KB"",
+                    ""id"": ""c66e2b3a-841c-4d0e-b9e0-e38f18b4c101"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""50d30ad9-8a94-4734-8b86-de0137cc99e7"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""103b28ce-442d-4592-86c5-d2a482a92ce1"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""d643e437-444e-4946-87ba-a21b18da2808"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""55d1ec6c-c8d9-4166-b41f-ff59cb009fb5"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB&M"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a25660c-4004-48b8-a9fd-c6826910ddf2"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4da2315d-f904-4db5-8fc3-0dc4f28feab7"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d58120b8-e0fa-4edf-b997-4da75e9e2696"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -414,12 +589,16 @@ public class @InputSystem : IInputActionCollection, IDisposable
 }");
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
-        m_Menu_Move = m_Menu.FindAction("Move", throwIfNotFound: true);
+        m_Menu_Navigate = m_Menu.FindAction("Navigate", throwIfNotFound: true);
         m_Menu_Accept = m_Menu.FindAction("Accept", throwIfNotFound: true);
         m_Menu_Decline = m_Menu.FindAction("Decline", throwIfNotFound: true);
         // Ingame
         m_Ingame = asset.FindActionMap("Ingame", throwIfNotFound: true);
         m_Ingame_Look = m_Ingame.FindAction("Look", throwIfNotFound: true);
+        m_Ingame_Move = m_Ingame.FindAction("Move", throwIfNotFound: true);
+        m_Ingame_Jump = m_Ingame.FindAction("Jump", throwIfNotFound: true);
+        m_Ingame_Sprint = m_Ingame.FindAction("Sprint", throwIfNotFound: true);
+        m_Ingame_Pause = m_Ingame.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -469,14 +648,14 @@ public class @InputSystem : IInputActionCollection, IDisposable
     // Menu
     private readonly InputActionMap m_Menu;
     private IMenuActions m_MenuActionsCallbackInterface;
-    private readonly InputAction m_Menu_Move;
+    private readonly InputAction m_Menu_Navigate;
     private readonly InputAction m_Menu_Accept;
     private readonly InputAction m_Menu_Decline;
     public struct MenuActions
     {
         private @InputSystem m_Wrapper;
         public MenuActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Menu_Move;
+        public InputAction @Navigate => m_Wrapper.m_Menu_Navigate;
         public InputAction @Accept => m_Wrapper.m_Menu_Accept;
         public InputAction @Decline => m_Wrapper.m_Menu_Decline;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
@@ -488,9 +667,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_MenuActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMove;
+                @Navigate.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnNavigate;
+                @Navigate.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnNavigate;
+                @Navigate.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnNavigate;
                 @Accept.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnAccept;
                 @Accept.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnAccept;
                 @Accept.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnAccept;
@@ -501,9 +680,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
+                @Navigate.started += instance.OnNavigate;
+                @Navigate.performed += instance.OnNavigate;
+                @Navigate.canceled += instance.OnNavigate;
                 @Accept.started += instance.OnAccept;
                 @Accept.performed += instance.OnAccept;
                 @Accept.canceled += instance.OnAccept;
@@ -519,11 +698,19 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Ingame;
     private IIngameActions m_IngameActionsCallbackInterface;
     private readonly InputAction m_Ingame_Look;
+    private readonly InputAction m_Ingame_Move;
+    private readonly InputAction m_Ingame_Jump;
+    private readonly InputAction m_Ingame_Sprint;
+    private readonly InputAction m_Ingame_Pause;
     public struct IngameActions
     {
         private @InputSystem m_Wrapper;
         public IngameActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @Look => m_Wrapper.m_Ingame_Look;
+        public InputAction @Move => m_Wrapper.m_Ingame_Move;
+        public InputAction @Jump => m_Wrapper.m_Ingame_Jump;
+        public InputAction @Sprint => m_Wrapper.m_Ingame_Sprint;
+        public InputAction @Pause => m_Wrapper.m_Ingame_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Ingame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -536,6 +723,18 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Look.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnLook;
+                @Move.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnMove;
+                @Jump.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
+                @Sprint.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnSprint;
+                @Pause.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_IngameActionsCallbackInterface = instance;
             if (instance != null)
@@ -543,6 +742,18 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -567,12 +778,16 @@ public class @InputSystem : IInputActionCollection, IDisposable
     }
     public interface IMenuActions
     {
-        void OnMove(InputAction.CallbackContext context);
+        void OnNavigate(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);
         void OnDecline(InputAction.CallbackContext context);
     }
     public interface IIngameActions
     {
         void OnLook(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
