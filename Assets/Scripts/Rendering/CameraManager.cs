@@ -27,7 +27,7 @@ public class CameraManager : MonoBehaviour
 	public float GetAxisCustom(string axisName)
 	{
 		// Delta holen
-		_lookDelta = _defaultcontrols.Ingame.Newaction.ReadValue<Vector2>();
+		_lookDelta = _defaultcontrols.Ingame.Look.ReadValue<Vector2>();
 		_lookDelta.Normalize();
 		// Delta je nach Achse zurückgeben
 		if (axisName == "X")
