@@ -1,8 +1,8 @@
 ﻿using Cinemachine;
 using UnityEngine;
-using Target = PlayerController.Target;
-using AxisUpdate = PlayerController.AxisUpdate;
-using PlayerIndex = PlayerController.PlayerIndex;
+using Target = PropController.Target;
+using AxisUpdate = PropController.AxisUpdate;
+using PlayerIndex = PropController.PlayerIndex;
 
 public class CameraManager : MonoBehaviour
 {
