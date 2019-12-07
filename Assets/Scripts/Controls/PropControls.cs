@@ -57,6 +57,14 @@ public class @PropControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""BecomeProp"",
+                    ""type"": ""Button"",
+                    ""id"": ""16b6296d-3bd4-4711-b818-6927903b5f20"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -69,17 +77,6 @@ public class @PropControls : IInputActionCollection, IDisposable
                     ""groups"": ""Controller"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""KB"",
-                    ""id"": ""c66e2b3a-841c-4d0e-b9e0-e38f18b4c101"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
@@ -125,6 +122,17 @@ public class @PropControls : IInputActionCollection, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4126e146-b8b8-4dc5-b886-6b7ce6057eaa"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""BecomeProp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -150,6 +158,7 @@ public class @PropControls : IInputActionCollection, IDisposable
         m_Ingame_Jump = m_Ingame.FindAction("Jump", throwIfNotFound: true);
         m_Ingame_SelectProp = m_Ingame.FindAction("SelectProp", throwIfNotFound: true);
         m_Ingame_Pause = m_Ingame.FindAction("Pause", throwIfNotFound: true);
+        m_Ingame_BecomeProp = m_Ingame.FindAction("BecomeProp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,6 +213,7 @@ public class @PropControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Ingame_Jump;
     private readonly InputAction m_Ingame_SelectProp;
     private readonly InputAction m_Ingame_Pause;
+    private readonly InputAction m_Ingame_BecomeProp;
     public struct IngameActions
     {
         private @PropControls m_Wrapper;
@@ -213,6 +223,7 @@ public class @PropControls : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Ingame_Jump;
         public InputAction @SelectProp => m_Wrapper.m_Ingame_SelectProp;
         public InputAction @Pause => m_Wrapper.m_Ingame_Pause;
+        public InputAction @BecomeProp => m_Wrapper.m_Ingame_BecomeProp;
         public InputActionMap Get() { return m_Wrapper.m_Ingame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -237,6 +248,9 @@ public class @PropControls : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
+                @BecomeProp.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnBecomeProp;
+                @BecomeProp.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnBecomeProp;
+                @BecomeProp.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnBecomeProp;
             }
             m_Wrapper.m_IngameActionsCallbackInterface = instance;
             if (instance != null)
@@ -256,6 +270,9 @@ public class @PropControls : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @BecomeProp.started += instance.OnBecomeProp;
+                @BecomeProp.performed += instance.OnBecomeProp;
+                @BecomeProp.canceled += instance.OnBecomeProp;
             }
         }
     }
@@ -276,5 +293,6 @@ public class @PropControls : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSelectProp(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnBecomeProp(InputAction.CallbackContext context);
     }
 }
