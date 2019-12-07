@@ -43,7 +43,7 @@ public class @PropControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Sprint"",
+                    ""name"": ""SelectProp"",
                     ""type"": ""Button"",
                     ""id"": ""839332d3-bbea-42df-add1-423ac8d761ce"",
                     ""expectedControlType"": ""Button"",
@@ -111,7 +111,7 @@ public class @PropControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Sprint"",
+                    ""action"": ""SelectProp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -148,7 +148,7 @@ public class @PropControls : IInputActionCollection, IDisposable
         m_Ingame_Look = m_Ingame.FindAction("Look", throwIfNotFound: true);
         m_Ingame_Move = m_Ingame.FindAction("Move", throwIfNotFound: true);
         m_Ingame_Jump = m_Ingame.FindAction("Jump", throwIfNotFound: true);
-        m_Ingame_Sprint = m_Ingame.FindAction("Sprint", throwIfNotFound: true);
+        m_Ingame_SelectProp = m_Ingame.FindAction("SelectProp", throwIfNotFound: true);
         m_Ingame_Pause = m_Ingame.FindAction("Pause", throwIfNotFound: true);
     }
 
@@ -202,7 +202,7 @@ public class @PropControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Ingame_Look;
     private readonly InputAction m_Ingame_Move;
     private readonly InputAction m_Ingame_Jump;
-    private readonly InputAction m_Ingame_Sprint;
+    private readonly InputAction m_Ingame_SelectProp;
     private readonly InputAction m_Ingame_Pause;
     public struct IngameActions
     {
@@ -211,7 +211,7 @@ public class @PropControls : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Ingame_Look;
         public InputAction @Move => m_Wrapper.m_Ingame_Move;
         public InputAction @Jump => m_Wrapper.m_Ingame_Jump;
-        public InputAction @Sprint => m_Wrapper.m_Ingame_Sprint;
+        public InputAction @SelectProp => m_Wrapper.m_Ingame_SelectProp;
         public InputAction @Pause => m_Wrapper.m_Ingame_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Ingame; }
         public void Enable() { Get().Enable(); }
@@ -231,9 +231,9 @@ public class @PropControls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
-                @Sprint.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnSprint;
-                @Sprint.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnSprint;
-                @Sprint.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnSprint;
+                @SelectProp.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnSelectProp;
+                @SelectProp.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnSelectProp;
+                @SelectProp.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnSelectProp;
                 @Pause.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
@@ -250,9 +250,9 @@ public class @PropControls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Sprint.started += instance.OnSprint;
-                @Sprint.performed += instance.OnSprint;
-                @Sprint.canceled += instance.OnSprint;
+                @SelectProp.started += instance.OnSelectProp;
+                @SelectProp.performed += instance.OnSelectProp;
+                @SelectProp.canceled += instance.OnSelectProp;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
@@ -274,7 +274,7 @@ public class @PropControls : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnSprint(InputAction.CallbackContext context);
+        void OnSelectProp(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }
 }
