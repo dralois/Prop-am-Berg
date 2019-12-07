@@ -2,7 +2,7 @@
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
-public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>, Service<PropController.Target>,  Service<PropController.GuiUpdate>
+public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>, Service<PropController.Target>, Service<PropController.GuiUpdate>
 {
 
 	#region Enums
@@ -42,23 +42,23 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 			Player = target;
 		}
 	}
-    public struct GuiUpdate
-    {
-        public bool _buttonPressed { get; private set; }
+	public struct GuiUpdate
+	{
+		public bool _buttonPressed { get; private set; }
 
-        public float X { get; private set; }
-        public float Y { get; private set; }
-        public Sprite[] _spriteArray { get; private set; }
+		public float X { get; private set; }
+		public float Y { get; private set; }
+		public Sprite[] _spriteArray { get; private set; }
 
-        public GuiUpdate(float x, float y, bool pressed, Sprite[] s)
-        {
-            X = x;
-            Y = y;
-            _buttonPressed = pressed;
-            _spriteArray = s;
-        }
+		public GuiUpdate(float x, float y, bool pressed, Sprite[] s)
+		{
+			X = x;
+			Y = y;
+			_buttonPressed = pressed;
+			_spriteArray = s;
+		}
 
-    }
+	}
 	#endregion
 
 	#region Fields
@@ -81,7 +81,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	private Vector2 _moveInput = Vector2.zero;
 	private Vector2 _lookInput = Vector2.zero;
 	private Quaternion _cameraLook = Quaternion.identity;
-    private bool _switchPressed = false;
+	private bool _switchPressed = false;
 
 	private bool _inAir = false;
 
@@ -141,22 +141,22 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	public void SwitchProp(InputAction.CallbackContext ctx)
 	{
-        if (ctx.performed)
-        {
-            if (ctx.ReadValue<float>() > 0)
-            {
-                _switchPressed = true;
-            }
-            else
-            {
-                _switchPressed = false;
-            }
-        }
-        else
-        {
-            _switchPressed = false;
-        }
-    }
+		if (ctx.performed)
+		{
+			if (ctx.ReadValue<float>() > 0)
+			{
+				_switchPressed = true;
+			}
+			else
+			{
+				_switchPressed = false;
+			}
+		}
+		else
+		{
+			_switchPressed = false;
+		}
+	}
 
 	public void SwitchToProp(InputAction.CallbackContext ctx)
 	{
@@ -178,7 +178,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	public void JumpAction(InputAction.CallbackContext ctx)
 	{
-		if(ctx.performed && ctx.ReadValue<float>() > 0f &&
+		if (ctx.performed && ctx.ReadValue<float>() > 0f &&
 			!_inAir && !IsInvoking("X_Jump"))
 		{
 			Invoke("X_Jump", .5f);
@@ -218,18 +218,18 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	Target Service<Target>.GetData() => new Target(transform);
 
-    public void SetData(GuiUpdate data)
-    {
-        throw new System.NotImplementedException();
-    }
+	public void SetData(GuiUpdate data)
+	{
+		throw new System.NotImplementedException();
+	}
 
-    GuiUpdate Service<GuiUpdate>.GetData() => new GuiUpdate(_moveInput.x,_moveInput.y, _switchPressed, _icons);
+	GuiUpdate Service<GuiUpdate>.GetData() => new GuiUpdate(_moveInput.x, _moveInput.y, _switchPressed, _icons);
 
-    #endregion
+	#endregion
 
-    #region Unity
+	#region Unity
 
-    private void Start()
+	private void Start()
 	{
 		// Cachen
 		_playerRB = GetComponent<Rigidbody>();
@@ -237,12 +237,12 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_dwarfAnimator = GetComponentInChildren<Animator>();
 		// Index updaten
 		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
+		// zufällige Zuweisung von Props
+		X_SetProps();
 		// Service anbieten
 		ServiceLocator<AxisUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
 		ServiceLocator<Target, PlayerIndex>.ProvideService(this, _playerIndex);
-        ServiceLocator<GuiUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
-        // zufällige Zuweisung von Props
-        X_SetProps();
+		ServiceLocator<GuiUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
 	}
 
 	private void Update()
@@ -277,13 +277,13 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		// Service entfernen
 		ServiceLocator<AxisUpdate, PlayerIndex>.WithdrawService(_playerIndex);
 		ServiceLocator<Target, PlayerIndex>.WithdrawService(_playerIndex);
-        ServiceLocator<GuiUpdate, PlayerIndex>.WithdrawService(_playerIndex);
-    }
+		ServiceLocator<GuiUpdate, PlayerIndex>.WithdrawService(_playerIndex);
+	}
 
-    
 
-    #endregion
 
-    #endregion
+	#endregion
+
+	#endregion
 
 }
