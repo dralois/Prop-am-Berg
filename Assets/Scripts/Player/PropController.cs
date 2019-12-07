@@ -112,10 +112,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	private void X_SetAnimation(bool isMoving)
 	{
 		if (_didWin || _didLose || !GameManager.Instance.GameStarted)
-		{
-			_dwarfAnimator.SetBool("Walking", false);
 			return;
-		}
 		if (_playerIndex != PlayerIndex.Seeker)
 		{
 			if (isMoving)
@@ -203,6 +200,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_didWin = true;
 		_model.SetActive(true);
 		_props[_currentProp].SetActive(false);
+		_dwarfAnimator.SetBool("Walking", true);
 	}
 
 	#region Input
