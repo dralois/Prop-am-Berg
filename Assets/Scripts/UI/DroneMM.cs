@@ -21,7 +21,7 @@ public class DroneMM : MonoBehaviour
         float hoverRange = maxHeight - minHeight;
         float hoverSpeed = 10.0f;
 
-        this.transform.position = Vector3.up * (hoverHeight + Mathf.Cos(Time.time * hoverSpeed/10f) * hoverRange) + new Vector3(-3.3f, 0, 22.2f);
+        this.transform.position = Vector3.up * (hoverHeight + Mathf.Cos(Time.time * hoverSpeed/10f) * hoverRange) + new Vector3(-1.35f, 0, 14.74f);
     }
 
 }
