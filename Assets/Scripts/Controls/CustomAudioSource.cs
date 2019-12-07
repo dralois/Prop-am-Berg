@@ -26,6 +26,7 @@ public class CustomAudioSource : MonoBehaviour
 
     public IEnumerator playSound(float startWait)
     {
+        Debug.Log("sound source did stuff");
         yield return new WaitForSeconds(startWait);
         //Debug.Log(this.name + " tried to play a sound");
 
