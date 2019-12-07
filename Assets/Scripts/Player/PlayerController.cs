@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpdate>
+public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpdate>, Service<PlayerController.Target>
 {
 
 	#region Enums
@@ -22,13 +22,11 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 
 	public struct AxisUpdate
 	{
-		public Transform Target { get; private set; }
 		public float X { get; private set; }
 		public float Y { get; private set; }
 
-		public AxisUpdate(float x, float y, Transform target)
+		public AxisUpdate(float x, float y)
 		{
-			Target = target;
 			X = x;
 			Y = y;
 		}
@@ -55,7 +53,7 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 
 	private Vector2 _moveInput = Vector2.zero;
 	private Vector2 _lookInput = Vector2.zero;
-	private Vector3 _cameraLook = Vector3.zero;
+	private Quaternion _cameraLook = Quaternion.identity;
 
 	#endregion
 
@@ -82,36 +80,53 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 
 	public void SetData(AxisUpdate data)
 	{
-		_cameraLook = new Vector3(transform.position.x - data.X, 0f, transform.position.z - data.Y);
+		// Rotation je nach dem updaten
+		if(_playerIndex == PlayerIndex.Seeker)
+		{
+			_cameraLook = Quaternion.Euler(0f, data.X, 0f);
+		}
+		else
+		{
+			_cameraLook = Quaternion.LookRotation(new Vector3(transform.position.x - data.X,
+																												0f,
+																												transform.position.z - data.Y),
+																						Vector3.up);
+		}
 	}
 
-	public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y, transform);
+	public void SetData(Target data) { }
+
+	public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y);
+
+	Target Service<Target>.GetData() => new Target(transform);
 
 	#endregion
 
 	#region Unity
 
-	private void OnEnable()
+	private void Start()
 	{
+		// Index updaten und cachen
 		_inputModule = GetComponent<PlayerInput>();
 		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
+		// Service anbieten
 		ServiceLocator<AxisUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
+		ServiceLocator<Target, PlayerIndex>.ProvideService(this, _playerIndex);
 	}
 
 	private void Update()
 	{
-		// ggf. Rotieren
-		if(_cameraLook != Vector3.zero && _playerIndex != PlayerIndex.Seeker)
-		{
-			transform.rotation = Quaternion.LookRotation(_cameraLook, Vector3.up);
-		}
+		// Rotieren
+		transform.rotation = _cameraLook;
 		// Bewegen
 		transform.Translate(new Vector3(_moveInput.x, 0f, _moveInput.y) * Time.deltaTime * _moveSpeed, Space.Self);
 	}
 
-	private void OnDisable()
+	private void OnDestroy()
 	{
+		// Service entfernen
 		ServiceLocator<AxisUpdate, PlayerIndex>.WithdrawService(_playerIndex);
+		ServiceLocator<Target, PlayerIndex>.WithdrawService(_playerIndex);
 	}
 
 	#endregion
