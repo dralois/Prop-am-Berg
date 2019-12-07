@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c734725528e2acb41bf3e0b739b4ddcb, type: 3}
   m_Name: Mouse
   m_EditorClassIdentifier: 
-  _prop: {fileID: 2428248312132786925, guid: 8900520680bdf604f85c64e8a8d5fcd3, type: 3}
+  _prop: {fileID: 5509172688863067319, guid: 91e67cd0e2ff75746a9f06fdda34b33f, type: 3}
   _img: {fileID: 21300000, guid: 9762272fe0706bc4f83d4a35e2b1ae4f, type: 3}

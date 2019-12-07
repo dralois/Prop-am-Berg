@@ -67,7 +67,6 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	[SerializeField] private ScruptableObjects[] _propList;
 	[SerializeField] private GameObject _model;
 
-
 	private ScruptableObjects[] _availProps;
 	private GameObject[] _props;
 	private Sprite[] _icons;
@@ -78,10 +77,11 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	private Animator _dwarfAnimator = null;
 	private Rigidbody _playerRB = null;
 
+	private bool _inProp = false;
+	private bool _switchPressed = false;
 	private Vector2 _moveInput = Vector2.zero;
 	private Vector2 _lookInput = Vector2.zero;
 	private Quaternion _cameraLook = Quaternion.identity;
-	private bool _switchPressed = false;
 
 	private bool _inAir = false;
 
@@ -129,6 +129,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		{
 			_props[k] = Instantiate(_availProps[k]._prop, transform);
 			_icons[k] = _availProps[k]._img;
+			_props[k].SetActive(false);
 		}
 	}
 
@@ -164,12 +165,14 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		{
 			if (ctx.ReadValue<float>() > 0)
 			{
+				_inProp = true;
 				_model.SetActive(false);
 				_props[_currentProp].SetActive(true);
 			}
 		}
 		else
 		{
+			_inProp = false;
 			_model.SetActive(true);
 			_props[_currentProp].SetActive(false);
 
@@ -179,7 +182,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	public void JumpAction(InputAction.CallbackContext ctx)
 	{
 		if (ctx.performed && ctx.ReadValue<float>() > 0f &&
-			!_inAir && !IsInvoking("X_Jump"))
+			!_inAir && !IsInvoking("X_Jump") && !_inProp)
 		{
 			Invoke("X_Jump", .5f);
 			_dwarfAnimator.SetTrigger("Jump");
@@ -197,7 +200,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_moveInput = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
 		_moveInput.Normalize();
 		// Falls Auswahlrad gedrückt
-		if (_switchPressed)
+		if (_switchPressed && ctx.performed)
 		{
 			float sectorAngle = Mathf.Atan2(_moveInput.y, _moveInput.x);
 			sectorAngle = (sectorAngle > 0 ? sectorAngle : (2 * Mathf.PI + sectorAngle)) * 360 / (2 * Mathf.PI);
@@ -205,7 +208,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 			{
 				_currentProp = 0;
 			}
-			else if(sectorAngle > 135f && sectorAngle < 225f)
+			else if (sectorAngle > 135f && sectorAngle < 225f)
 			{
 				_currentProp = 3;
 			}
@@ -218,11 +221,12 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 			{
 				_currentProp = 1;
 			}
+			_moveInput = Vector2.zero;
 		}
 		else
 		{
 			X_SetAnimation(ctx.performed);
-}
+		}
 	}
 
 	#endregion
@@ -230,81 +234,84 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	#region Overrides
 
 	public void SetData(AxisUpdate data)
-{
-	// Rotationen bestimmen
-	var camRot = Quaternion.Euler(0f, data.X, 0f);
-	var moveRot = Quaternion.LookRotation(new Vector3(_moveInput.x, 0f, _moveInput.y));
-	// ggf. speichern
-	_cameraLook = _moveInput.magnitude > 0f ? camRot * moveRot : _cameraLook;
-}
-
-public void SetData(Target data) { }
-
-public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y);
-
-Target Service<Target>.GetData() => new Target(transform);
-
-public void SetData(GuiUpdate data)
-{
-	throw new System.NotImplementedException();
-}
-
-GuiUpdate Service<GuiUpdate>.GetData() => new GuiUpdate(_moveInput.x, _moveInput.y, _switchPressed, _icons);
-
-#endregion
-
-#region Unity
-
-private void Start()
-{
-	// Cachen
-	_playerRB = GetComponent<Rigidbody>();
-	_inputModule = GetComponent<PlayerInput>();
-	_dwarfAnimator = GetComponentInChildren<Animator>();
-	// Index updaten
-	_playerIndex = (PlayerIndex)_inputModule.playerIndex;
-	// zufällige Zuweisung von Props
-	X_SetProps();
-	// Service anbieten
-	ServiceLocator<AxisUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
-	ServiceLocator<Target, PlayerIndex>.ProvideService(this, _playerIndex);
-	ServiceLocator<GuiUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
-}
-
-private void Update()
-{
-	Vector3 posNew;
-	// Rotieren
-	_playerRB.MoveRotation(_cameraLook);
-	// Position updaten
-	posNew = transform.TransformPoint(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
-	// Bewegen
-	_playerRB.MovePosition(posNew);
-}
-
-private void FixedUpdate()
-{
-	// Prüfen ob Player fällt
-	if (!Physics.Linecast(transform.position + new Vector3(0f, 1f, 0f),
-												transform.position - new Vector3(0, 2f, 0)))
 	{
-		_inAir = true;
+		// Rotationen bestimmen
+		var camRot = Quaternion.Euler(0f, data.X, 0f);
+		var moveRot = Quaternion.LookRotation(new Vector3(_moveInput.x, 0f, _moveInput.y));
+		// ggf. speichern
+		_cameraLook = _moveInput.magnitude > 0f ? camRot * moveRot : _cameraLook;
 	}
-	else
-	{
-		_inAir = false;
-	}
-	// Flag setzen
-	_dwarfAnimator.SetBool("InAir", _inAir);
-}
 
-private void OnDestroy()
-{
-	// Service entfernen
-	ServiceLocator<AxisUpdate, PlayerIndex>.WithdrawService(_playerIndex);
-	ServiceLocator<Target, PlayerIndex>.WithdrawService(_playerIndex);
-	ServiceLocator<GuiUpdate, PlayerIndex>.WithdrawService(_playerIndex);
-}
+	public void SetData(Target data) { }
+
+	public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y);
+
+	Target Service<Target>.GetData() => new Target(transform);
+
+	public void SetData(GuiUpdate data)
+	{
+		throw new System.NotImplementedException();
+	}
+
+	GuiUpdate Service<GuiUpdate>.GetData() => new GuiUpdate(_moveInput.x, _moveInput.y, _switchPressed, _icons);
+
+	#endregion
+
+	#region Unity
+
+	private void Start()
+	{
+		// Cachen
+		_playerRB = GetComponent<Rigidbody>();
+		_inputModule = GetComponent<PlayerInput>();
+		_dwarfAnimator = GetComponentInChildren<Animator>();
+		// Index updaten
+		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
+		// zufällige Zuweisung von Props
+		X_SetProps();
+		// Service anbieten
+		ServiceLocator<AxisUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
+		ServiceLocator<Target, PlayerIndex>.ProvideService(this, _playerIndex);
+		ServiceLocator<GuiUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
+	}
+
+	private void Update()
+	{
+		Vector3 posNew;
+		// Rotieren
+		_playerRB.MoveRotation(_cameraLook);
+		// Position updaten
+		if (!_inProp)
+		{
+			posNew = transform.TransformPoint(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
+			// Bewegen
+			_playerRB.MovePosition(posNew);
+		}
+	}
+
+	private void FixedUpdate()
+	{
+		// Prüfen ob Player fällt
+		if (!Physics.Linecast(transform.position + new Vector3(0f, 1f, 0f),
+													transform.position - new Vector3(0, 2f, 0)))
+		{
+			_inAir = true;
+		}
+		else
+		{
+			_inAir = false;
+		}
+		// Flag setzen
+		_dwarfAnimator.SetBool("InAir", _inAir);
+	}
+
+	private void OnDestroy()
+	{
+		// Service entfernen
+		ServiceLocator<AxisUpdate, PlayerIndex>.WithdrawService(_playerIndex);
+		ServiceLocator<Target, PlayerIndex>.WithdrawService(_playerIndex);
+		ServiceLocator<GuiUpdate, PlayerIndex>.WithdrawService(_playerIndex);
+	}
 
 
 
