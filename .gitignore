@@ -53,20 +53,6 @@ sysinfo.txt
 
 # Builds
 *.apk
-*.unitypackage
 
 # Crashlytics generated file
 crashlytics-build.properties
-
-Assets/Models/Display_SM.fbx.meta
-Assets/Scenes/DONOTPUSH.unity
-Assets/Scenes/DONOTPUSH.unity.meta
-Assets/Materials/Effects.meta
-*.meta
-Assets/Art.meta
-Assets/Materials/Effects.meta
-Assets/Materials/Effects.meta
-Assets/Art.meta
-Assets/Materials/Effects/Fire.tga.meta
-*.meta
-*.meta
