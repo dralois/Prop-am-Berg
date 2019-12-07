@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 1216654056233634932}
   - component: {fileID: 9108653025149100302}
   m_Layer: 0
-  m_Name: Dwarf
+  m_Name: Dwarf_P
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -843,7 +843,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8307983825702126011, guid: 1d78fecc288f9dc42a78ee9f4552ffb4, type: 3}
+  - {fileID: 2100000, guid: ec2e836974f992d4d9a8f0031c08b101, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
