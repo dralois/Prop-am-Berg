@@ -34,6 +34,16 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 		}
 	}
 
+	public struct Target
+	{
+		public Transform Player { get; private set; }
+
+		public Target(Transform target)
+		{
+			Player = target;
+		}
+	}
+
 	#endregion
 
 	#region Fields
@@ -50,6 +60,11 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 	#endregion
 
 	#region Methods
+
+	private void SetAnimation(bool isMoving)
+	{
+
+	}
 
 	public void LookAction(InputAction.CallbackContext ctx)
 	{
