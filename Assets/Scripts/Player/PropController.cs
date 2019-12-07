@@ -66,6 +66,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	[SerializeField] private float _moveSpeed = 5f;
 	[SerializeField] private PropSO[] _propList;
 	[SerializeField] private GameObject _model;
+	[SerializeField] private LayerMask _collideWith;
 
 	private PropSO[] _availProps;
 	private GameObject[] _props;
@@ -181,8 +182,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	public void JumpAction(InputAction.CallbackContext ctx)
 	{
-		if (ctx.performed && ctx.ReadValue<float>() > 0f &&
-			!_inAir && !IsInvoking("X_Jump") && !_inProp)
+		if (ctx.performed && ctx.ReadValue<float>() > 0f && !_inAir && !_inProp)
 		{
 			Invoke("X_Jump", .5f);
 			_dwarfAnimator.SetTrigger("Jump");
@@ -292,8 +292,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	private void FixedUpdate()
 	{
 		// Prüfen ob Player fällt
-		if (!Physics.Linecast(transform.position + new Vector3(0f, 1f, 0f),
-													transform.position - new Vector3(0, 2f, 0)))
+		if (!Physics.CheckSphere(transform.position, .5f, _collideWith))
 		{
 			_inAir = true;
 		}
@@ -305,6 +304,11 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_dwarfAnimator.SetBool("InAir", _inAir);
 	}
 
+	private void OnDrawGizmos()
+	{
+		Gizmos.DrawWireSphere(transform.position, .5f);
+	}
+
 	private void OnDestroy()
 	{
 		// Service entfernen
@@ -312,8 +316,6 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		ServiceLocator<Target, PlayerIndex>.WithdrawService(_playerIndex);
 		ServiceLocator<GuiUpdate, PlayerIndex>.WithdrawService(_playerIndex);
 	}
-
-
 
 	#endregion
 
