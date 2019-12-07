@@ -8,7 +8,7 @@ public class GameManager : Singleton<GameManager>
 	[SerializeField] private TextMeshProUGUI _startText = null;
 
 	private List<GameObject> _spawns = null;
-	private int _countdown = 10;
+	private int _countdown = 3;
 
 	public bool GameStarted { get; private set; } = false;
 

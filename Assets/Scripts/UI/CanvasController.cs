@@ -21,7 +21,7 @@ public class CanvasController : MonoBehaviour
 	void Start()
 	{
 		_winCount = 0;
-		_images = GetComponentsInChildren<Image>(true);
+		_images = _selectionObj.GetComponentsInChildren<Image>(true);
 		ServiceLocator<PropController.GuiUpdate, PropController.PlayerIndex>.OnServiceAdded += X_PlayerJoined;
 	}
 
@@ -66,7 +66,6 @@ public class CanvasController : MonoBehaviour
 			for (int i = 0; i < _GUIService.GetData().Icons.Length; i++)
 			{
 				_images[i].sprite = _GUIService.GetData().Icons[i];
-				_images[i].enabled = true;
 			}
 		}
 
