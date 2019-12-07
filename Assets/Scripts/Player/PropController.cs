@@ -4,10 +4,15 @@ using System.Collections.Generic;
 
 public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>, Service<PropController.Target>, Service<PropController.GuiUpdate>
 {
+    private float passedTime = 0;
+    private float waitTime = 0.626f;
+    [SerializeField] private AudioClip walkSound;
+    [SerializeField] private AudioClip transformSound;
 
-	#region Enums
 
-	public enum PlayerIndex : int
+    #region Enums
+
+    public enum PlayerIndex : int
 	{
 		None = -1,
 		Seeker,
@@ -183,7 +188,8 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_inProp = isNowProp || _inView;
 		_model.SetActive(!_inProp);
 		_props[_currentProp].SetActive(_inProp);
-	}
+        AudioManager.Instance.Play(AudioManager.AudioType.Sound, transformSound, false, true, false);
+    }
 
 	public void KillPlayer()
 	{
@@ -332,7 +338,14 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		// Early out
 		if(_didLose ||_didWin || !GameManager.Instance.GameStarted)
 			return;
-		// Visibility Check
+        bool playSound = false;
+        passedTime += Time.fixedDeltaTime;
+        if(passedTime >= waitTime)
+        {
+            passedTime = 0;
+            playSound = true;
+        }
+        // Visibility Check
 		bool wasInView = _inView;
 		_inView = X_CheckIfVisible();
 		// Rotieren
@@ -343,6 +356,8 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 			Vector3 posNew = transform.TransformPoint(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
 			// Bewegen
 			_playerRB.MovePosition(posNew);
+
+            if (_moveInput.magnitude > 0.1f && playSound) AudioManager.Instance.Play(AudioManager.AudioType.Sound, walkSound, false, true, false);
 		}
 		// Prop an/aus
 		X_TrySwitchToProp((_inView || _inProp) && (_inView == wasInView));

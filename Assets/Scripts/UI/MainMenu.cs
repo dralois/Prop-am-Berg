@@ -9,7 +9,7 @@ public class MainMenu : CustomAudioSource
     {
         loop = false;
         playOnAwake = false;
-        randomize = true;
+        randomize = false;
         noDuplicate = false;
         playRandomly = false;
 
