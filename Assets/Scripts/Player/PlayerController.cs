@@ -131,7 +131,14 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 		// Rotieren
 		transform.rotation = _cameraLook;
 		// Bewegen
-		transform.Translate(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed, Space.Self);
+		if(_playerIndex == PlayerIndex.Seeker)
+		{
+			transform.Translate(new Vector3(_moveInput.x, 0f, _moveInput.y) * _moveInput.magnitude * Time.deltaTime * _moveSpeed, Space.Self);
+		}
+		else
+		{
+			transform.Translate(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed, Space.Self);
+		}
 	}
 
 	private void OnDestroy()

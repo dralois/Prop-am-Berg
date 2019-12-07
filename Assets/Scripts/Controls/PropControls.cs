@@ -104,7 +104,7 @@ public class @PropControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4da2315d-f904-4db5-8fc3-0dc4f28feab7"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -126,7 +126,7 @@ public class @PropControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4126e146-b8b8-4dc5-b886-6b7ce6057eaa"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
