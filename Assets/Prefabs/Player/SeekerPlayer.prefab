@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 610303092608098555}
   - component: {fileID: 7602784910696580561}
-  - component: {fileID: 1601545709}
+  - component: {fileID: 6773186219496390180}
   - component: {fileID: -7411588458528278535}
   - component: {fileID: 1039263240755284025}
   m_Layer: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1601545709}
+      - m_Target: {fileID: 6773186219496390180}
         m_MethodName: LookAction
         m_Mode: 0
         m_Arguments:
@@ -75,7 +75,7 @@ MonoBehaviour:
     m_ActionName: Ingame/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1601545709}
+      - m_Target: {fileID: 6773186219496390180}
         m_MethodName: MoveAction
         m_Mode: 0
         m_Arguments:
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_DefaultActionMap: Ingame
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1601545709
+--- !u!114 &6773186219496390180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 610303092608098552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcfba39225b6e6b47b191551974ca123, type: 3}
+  m_Script: {fileID: 11500000, guid: 37bc52e0c605edc429cb4b3da5243875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 5
