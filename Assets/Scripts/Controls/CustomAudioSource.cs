@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class CustomAudioSource : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] myClip;
-    [SerializeField] private bool loop = true;
-    [SerializeField] private bool playOnAwake = true;
-    [SerializeField] private bool randomize = true;
-    [SerializeField] private bool noDuplicate = true;
-    [SerializeField] private bool playRandomly = false;
-    [SerializeField] private float minRandomWaitTime = 2f;
-    [SerializeField] private float maxRandomWaitTime = 20f;
+    [SerializeField] protected AudioClip[] myClip;
+    [SerializeField] protected bool loop = true;
+    [SerializeField] protected bool playOnAwake = true;
+    [SerializeField] protected bool randomize = true;
+    [SerializeField] protected bool noDuplicate = true;
+    [SerializeField] protected bool playRandomly = false;
+    [SerializeField] protected float minRandomWaitTime = 2f;
+    [SerializeField] protected float maxRandomWaitTime = 20f;
 
-    void Awake()
+    protected void Awake()
     {       
         float waitTime = Random.Range(minRandomWaitTime, maxRandomWaitTime);
-        Debug.Log(waitTime);
+        //Debug.Log(waitTime);
         if (playOnAwake)
         {
             waitTime = 0;
@@ -27,14 +27,14 @@ public class CustomAudioSource : MonoBehaviour
     public IEnumerator playSound(float startWait)
     {
         yield return new WaitForSeconds(startWait);
-        Debug.Log(this.name + " tried to play a sound");
+        //Debug.Log(this.name + " tried to play a sound");
 
         if (myClip == null) Debug.LogError("Please assign the audioclip of " + this.name);
         else
         {
             int index = Random.Range(0, myClip.Length);
             AudioManager.Instance.Play(AudioManager.AudioType.Sound, myClip[index], loop, randomize, noDuplicate);
-            Debug.Log(this.name + " played " + myClip[index].name);
+            //Debug.Log(this.name + " played " + myClip[index].name);
 
             if (playRandomly)
             {               
