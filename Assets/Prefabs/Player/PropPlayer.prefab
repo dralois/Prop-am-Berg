@@ -31,7 +31,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8614779848536155502}
+  - {fileID: 8249525028890174422}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -93,7 +93,18 @@ MonoBehaviour:
     m_ActionId: ca143d1e-cfe2-434a-9e75-7fb9f3d0d63a
     m_ActionName: Ingame/Jump[/XInputControllerWindows/buttonSouth,/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 610303092608098554}
+        m_MethodName: SwitchProp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 839332d3-bbea-42df-add1-423ac8d761ce
     m_ActionName: Ingame/Sprint[/XInputControllerWindows/buttonEast,/Keyboard/leftShift]
   - m_PersistentCalls:
@@ -101,7 +112,18 @@ MonoBehaviour:
     m_ActionId: 67664105-2679-4cea-b225-64c04251a092
     m_ActionName: Ingame/Pause[/XInputControllerWindows/start,/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 610303092608098554}
+        m_MethodName: SwitchToProp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 16b6296d-3bd4-4711-b818-6927903b5f20
     m_ActionName: Ingame/BecomeProp[/DualShock4GamepadHID/rightTrigger]
   m_NeverAutoSwitchControlSchemes: 1
@@ -176,7 +198,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 610303092608098555}
+    m_TransformParent: {fileID: 8249525028890174422}
     m_Modifications:
     - target: {fileID: -927199367670048503, guid: 1d78fecc288f9dc42a78ee9f4552ffb4,
         type: 3}
@@ -201,17 +223,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 1d78fecc288f9dc42a78ee9f4552ffb4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 1d78fecc288f9dc42a78ee9f4552ffb4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 1d78fecc288f9dc42a78ee9f4552ffb4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 1d78fecc288f9dc42a78ee9f4552ffb4,
         type: 3}
