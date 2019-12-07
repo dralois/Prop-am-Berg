@@ -47,9 +47,9 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 	#region Fields
 
 	[SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private Animator _dwarfAnimator;
+	[SerializeField] private Animator _dwarfAnimator;
 
-    private PlayerIndex _playerIndex = PlayerIndex.None;
+	private PlayerIndex _playerIndex = PlayerIndex.None;
 	private PlayerInput _inputModule = null;
 
 	private Vector2 _moveInput = Vector2.zero;
@@ -60,15 +60,18 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 
 	#region Methods
 
-	private void SetAnimation(bool isMoving)
+	private void X_SetAnimation(bool isMoving)
 	{
-        if (isMoving)
-        {
-            _dwarfAnimator.SetBool("Walking", true);
-        }
-        else
-            _dwarfAnimator.SetBool("Walking", false);
-    }
+		if(_playerIndex != PlayerIndex.Seeker)
+		{
+			if (isMoving)
+			{
+				_dwarfAnimator.SetBool("Walking", true);
+			}
+			else
+				_dwarfAnimator.SetBool("Walking", false);
+		}
+	}
 
 	public void LookAction(InputAction.CallbackContext ctx)
 	{
@@ -79,6 +82,7 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 	public void MoveAction(InputAction.CallbackContext ctx)
 	{
 		_moveInput = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
+		X_SetAnimation(ctx.performed);
 		_moveInput.Normalize();
 	}
 
@@ -113,7 +117,7 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 
 	private void Start()
 	{
-        _dwarfAnimator = GetComponent<Animator>();
+		_dwarfAnimator = GetComponentInChildren<Animator>();
 		// Index updaten und cachen
 		_inputModule = GetComponent<PlayerInput>();
 		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
