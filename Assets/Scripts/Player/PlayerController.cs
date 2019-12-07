@@ -47,18 +47,39 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 	#region Fields
 
 	[SerializeField] private float _moveSpeed = 5f;
-	[SerializeField] private Animator _dwarfAnimator;
 
 	private PlayerIndex _playerIndex = PlayerIndex.None;
 	private PlayerInput _inputModule = null;
+	private Animator _dwarfAnimator = null;
+	private Rigidbody _playerRB = null;
 
 	private Vector2 _moveInput = Vector2.zero;
 	private Vector2 _lookInput = Vector2.zero;
 	private Quaternion _cameraLook = Quaternion.identity;
 
+	private bool _inAir = false;
+
 	#endregion
 
 	#region Methods
+
+	private void X_CheckGround()
+	{
+		if(_playerIndex != PlayerIndex.Seeker)
+		{
+			// Prüfen ob Player fällt
+			if (Physics.Raycast(_playerRB.position, Vector3.down))
+			{
+				_inAir = false;
+			}
+			else
+			{
+				_inAir = true;
+			}
+			// Flag setzen
+			_dwarfAnimator.SetBool("InAir", _inAir);
+		}
+	}
 
 	private void X_SetAnimation(bool isMoving)
 	{
@@ -117,9 +138,11 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 
 	private void Start()
 	{
-		_dwarfAnimator = GetComponentInChildren<Animator>();
-		// Index updaten und cachen
+		// Cachen
+		_playerRB = GetComponent<Rigidbody>();
 		_inputModule = GetComponent<PlayerInput>();
+		_dwarfAnimator = GetComponentInChildren<Animator>();
+		// Index updaten
 		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
 		// Service anbieten
 		ServiceLocator<AxisUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
@@ -128,17 +151,20 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 
 	private void Update()
 	{
+		Vector3 posNew;
 		// Rotieren
-		transform.rotation = _cameraLook;
-		// Bewegen
+		_playerRB.MoveRotation(_cameraLook);
+		// Position updaten
 		if(_playerIndex == PlayerIndex.Seeker)
 		{
-			transform.Translate(new Vector3(_moveInput.x, 0f, _moveInput.y) * _moveInput.magnitude * Time.deltaTime * _moveSpeed, Space.Self);
+			posNew = transform.TransformPoint(new Vector3(_moveInput.x, 0f, _moveInput.y) * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
 		}
 		else
 		{
-			transform.Translate(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed, Space.Self);
+			posNew = transform.TransformPoint(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
 		}
+		// Bewegen
+		_playerRB.MovePosition(posNew);
 	}
 
 	private void OnDestroy()
