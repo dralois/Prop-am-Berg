@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4552761434047630309}
   - component: {fileID: 5607402027204552561}
   - component: {fileID: 2282046260727330668}
+  - component: {fileID: 7848074250429682148}
   m_Layer: 0
   m_Name: TrashCanDeckel
   m_TagString: Untagged
@@ -78,6 +79,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &7848074250429682148
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239716105336290358}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.022247672, y: 0.021997461, z: 0.0034745324}
+  m_Center: {x: 0.0000068974496, y: 0.000012832887, z: 0.011942827}
 --- !u!1 &4223820434603303140
 GameObject:
   m_ObjectHideFlags: 0
