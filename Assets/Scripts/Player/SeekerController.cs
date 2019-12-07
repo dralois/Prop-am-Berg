@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate>, Service<PropController.Target>
+public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate>, Service<PropController.Target>, SeekerControls.IIngameActions
 {
 
 	#region Fields
@@ -11,6 +11,7 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 	private PropController.PlayerIndex _playerIndex = PropController.PlayerIndex.None;
 	private PlayerInput _inputModule = null;
 	private Rigidbody _playerRB = null;
+	private SeekerControls _controls = null;
 
 	private Vector2 _moveInput = Vector2.zero;
 	private Vector2 _lookInput = Vector2.zero;
@@ -20,17 +21,31 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 
 	#region Methods
 
-	public void LookAction(InputAction.CallbackContext ctx)
+	#region Input
+
+	public void OnLook(InputAction.CallbackContext ctx)
 	{
 		_lookInput = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
 		_lookInput.Normalize();
 	}
 
-	public void MoveAction(InputAction.CallbackContext ctx)
+	public void OnMove(InputAction.CallbackContext ctx)
 	{
 		_moveInput = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
 		_moveInput.Normalize();
 	}
+
+	public void OnShowProps(InputAction.CallbackContext ctx)
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public void OnShoot(InputAction.CallbackContext ctx)
+	{
+		throw new System.NotImplementedException();
+	}
+
+	#endregion
 
 	#region Overrides
 
@@ -54,6 +69,10 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 		// Cachen
 		_playerRB = GetComponent<Rigidbody>();
 		_inputModule = GetComponent<PlayerInput>();
+		// Control Callbacks setzen
+		_controls = new SeekerControls();
+		_controls.Ingame.SetCallbacks(this);
+		_controls.Ingame.Enable();
 		// Index updaten
 		_playerIndex = (PropController.PlayerIndex)_inputModule.playerIndex;
 		// Service anbieten
@@ -74,6 +93,9 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 
 	private void OnDestroy()
 	{
+		// Controls entfernen
+		_controls.Disable();
+		_controls.Dispose();
 		// Service entfernen
 		ServiceLocator<PropController.AxisUpdate, PropController.PlayerIndex>.WithdrawService(_playerIndex);
 		ServiceLocator<PropController.Target, PropController.PlayerIndex>.WithdrawService(_playerIndex);

@@ -59,47 +59,21 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6773186219496390180}
-        m_MethodName: LookAction
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: f059060e-3413-4af8-8f6e-84e90f5c613d
     m_ActionName: Ingame/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6773186219496390180}
-        m_MethodName: MoveAction
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 870e19b6-9455-4fd5-8909-bc8a38a2f10b
     m_ActionName: Ingame/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ca143d1e-cfe2-434a-9e75-7fb9f3d0d63a
-    m_ActionName: Ingame/Jump[/XInputControllerWindows/buttonSouth,/Keyboard/space]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 839332d3-bbea-42df-add1-423ac8d761ce
     m_ActionName: Ingame/Sprint[/XInputControllerWindows/buttonEast,/Keyboard/leftShift]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 67664105-2679-4cea-b225-64c04251a092
-    m_ActionName: Ingame/Pause[/XInputControllerWindows/start,/Keyboard/escape]
+    m_ActionId: 6a7a870c-6b95-45a1-b8d0-b63f13eb4e3a
+    m_ActionName: Ingame/Shoot[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: KB&M
   m_DefaultActionMap: Ingame
