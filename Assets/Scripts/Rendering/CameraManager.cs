@@ -4,44 +4,38 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
 
-	private InputSystem _controls;
-	private Vector2 _lookDelta;
+	[SerializeField] private PlayerController.PlayerIndex _boundPlayer = PlayerController.PlayerIndex.None;
 
-	private void Awake() => _controls = new InputSystem();
+	private Service<PlayerController.AxisUpdate> _targetService = null;
+	private CinemachineFreeLook _freeLookComp = null;
+
+	private void Awake()
+	{
+		// Free Look Component cachen
+		_freeLookComp = GetComponent<CinemachineFreeLook>();
+	}
 
 	private void OnEnable()
 	{
-		// Control Scheme aktivieren
-		_controls.Ingame.Enable();
-		// Delegate zuweisen
-		CinemachineCore.GetInputAxis = GetAxisCustom;
-	}
-	private void OnDisable()
-	{
-		// Control Scheme deaktivieren
-		_controls.Ingame.Disable();
-		// Delegate entfernen
-		CinemachineCore.GetInputAxis = null;
+		// Service holen
+		_targetService = ServiceLocator<PlayerController.AxisUpdate, PlayerController.PlayerIndex>.GetService(_boundPlayer);
 	}
 
-	public float GetAxisCustom(string axisName)
+	private void OnDisable()
 	{
-		// Delta holen
-		_lookDelta = _controls.Ingame.Look.ReadValue<Vector2>();
-		_lookDelta.Normalize();
-		// Delta je nach Achse zurückgeben
-		if (axisName == "X")
-		{
-			return _lookDelta.x;
-		}
-		else if (axisName == "Y")
-		{
-			return _lookDelta.y;
-		}
-		else
-		{
-			return 0;
-		}
+		// Service entfernen
+		_targetService = null;
+	}
+
+	private void Update()
+	{
+		// Free Look updaten
+		_freeLookComp.m_XAxis.m_InputAxisValue = _targetService.GetData().X;
+		_freeLookComp.m_YAxis.m_InputAxisValue = _targetService.GetData().Y;
+		_freeLookComp.m_XAxis.Update(Time.deltaTime);
+		_freeLookComp.m_YAxis.Update(Time.deltaTime);
+		// Kamera Position zurückschreiben
+		_targetService.SetData(new PlayerController.AxisUpdate(transform.position.x, transform.position.z));
 	}
 
 }
