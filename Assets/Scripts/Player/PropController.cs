@@ -207,7 +207,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	public void SwitchProp(InputAction.CallbackContext ctx)
 	{
-		if (_didWin || _didLose || !GameManager.Instance.GameStarted)
+		if (_didWin || _didLose || !GameManager.Instance.GameStarted || _inView)
 			return;
 		if (ctx.performed)
 		{
@@ -229,7 +229,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	public void SwitchToProp(InputAction.CallbackContext ctx)
 	{
-		if (_didWin || _didLose || !GameManager.Instance.GameStarted)
+		if (_didWin || _didLose || !GameManager.Instance.GameStarted || _inView)
 			return;
 		if (ctx.performed && ctx.ReadValue<float>() > 0)
 		{
