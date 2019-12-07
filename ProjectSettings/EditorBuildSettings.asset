@@ -9,8 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScreen.unity
     guid: e1e82db6a70494c41beaaaa3991f04c5
   - enabled: 1
-    path: Assets/Scenes/BasicLevel.unity
-    guid: 8c68151dac7a75d44aec5e059f55e79d
+    path: Assets/Scenes/MonitorTest.unity
+    guid: e99c6506c2b30be46b7c87f305bf0b7c
+  - enabled: 1
+    path: Assets/Scenes/Instructions.unity
+    guid: 7d0282a8e1496104d99652a8e050064b
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ddd8fabaa92fdbe40ad44b6b196974ff,
       type: 2}
