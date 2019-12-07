@@ -22,14 +22,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "ca143d1e-cfe2-434a-9e75-7fb9f3d0d63a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "ShowProps",
                     "type": "Button",
                     "id": "839332d3-bbea-42df-add1-423ac8d761ce",
@@ -38,10 +30,10 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Pause",
+                    "name": "Shoot",
                     "type": "Button",
-                    "id": "67664105-2679-4cea-b225-64c04251a092",
-                    "expectedControlType": "Button",
+                    "id": "6a7a870c-6b95-45a1-b8d0-b63f13eb4e3a",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 }
@@ -115,17 +107,6 @@
                 },
                 {
                     "name": "",
-                    "id": "0c3ef4ee-03f4-48ca-9469-7248f38c7dcb",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KB&M",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f20c9f13-62be-4309-87f1-319fe1ca1c87",
                     "path": "<Keyboard>/tab",
                     "interactions": "",
@@ -137,12 +118,12 @@
                 },
                 {
                     "name": "",
-                    "id": "a3a8da91-20e5-4c8c-974a-de576882cd9b",
-                    "path": "<Keyboard>/escape",
+                    "id": "7dfe1194-537a-4666-8aa7-2e43282d1f86",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KB&M",
-                    "action": "Pause",
+                    "groups": "",
+                    "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -59,47 +59,21 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6773186219496390180}
-        m_MethodName: LookAction
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: f059060e-3413-4af8-8f6e-84e90f5c613d
     m_ActionName: Ingame/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6773186219496390180}
-        m_MethodName: MoveAction
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 870e19b6-9455-4fd5-8909-bc8a38a2f10b
     m_ActionName: Ingame/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ca143d1e-cfe2-434a-9e75-7fb9f3d0d63a
-    m_ActionName: Ingame/Jump[/XInputControllerWindows/buttonSouth,/Keyboard/space]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 839332d3-bbea-42df-add1-423ac8d761ce
     m_ActionName: Ingame/Sprint[/XInputControllerWindows/buttonEast,/Keyboard/leftShift]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 67664105-2679-4cea-b225-64c04251a092
-    m_ActionName: Ingame/Pause[/XInputControllerWindows/start,/Keyboard/escape]
+    m_ActionId: 6a7a870c-6b95-45a1-b8d0-b63f13eb4e3a
+    m_ActionName: Ingame/Shoot[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: KB&M
   m_DefaultActionMap: Ingame
@@ -147,6 +121,27 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.726448, y: 1.4566717, z: 3.8679035}
   m_Center: {x: -0.03653431, y: 0.22833586, z: -1.3426174}
+--- !u!114 &2481062892024784830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953992189766141157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81969e0fcb465514d947f7c13bdf7ea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myClip:
+  - {fileID: 8300000, guid: 48ccca32341e2dc4e8340a8bdfec37b7, type: 3}
+  loop: 1
+  playOnAwake: 1
+  randomize: 0
+  noDuplicate: 1
+  playRandomly: 0
+  minRandomWaitTime: 0
+  maxRandomWaitTime: 0
 --- !u!1001 &4921838761193553685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -154,11 +149,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 610303092608098555}
     m_Modifications:
-    - target: {fileID: 6868020001276083184, guid: 26aef07c5994f364db067a42ef6a1158,
-        type: 3}
-      propertyPath: m_Name
-      value: drone
-      objectReference: {fileID: 0}
     - target: {fileID: 7569216258462206435, guid: 26aef07c5994f364db067a42ef6a1158,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -229,6 +219,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6868020001276083184, guid: 26aef07c5994f364db067a42ef6a1158,
+        type: 3}
+      propertyPath: m_Name
+      value: drone
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 581554684371279881, guid: 26aef07c5994f364db067a42ef6a1158, type: 3}
     - {fileID: 8116530507427505599, guid: 26aef07c5994f364db067a42ef6a1158, type: 3}
@@ -236,6 +231,12 @@ PrefabInstance:
     - {fileID: 3519144910801567728, guid: 26aef07c5994f364db067a42ef6a1158, type: 3}
     - {fileID: 294570766813324720, guid: 26aef07c5994f364db067a42ef6a1158, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 26aef07c5994f364db067a42ef6a1158, type: 3}
+--- !u!1 &1953992189766141157 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6868020001276083184, guid: 26aef07c5994f364db067a42ef6a1158,
+    type: 3}
+  m_PrefabInstance: {fileID: 4921838761193553685}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3262471261966628598 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7569216258462206435, guid: 26aef07c5994f364db067a42ef6a1158,
