@@ -72,24 +72,6 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	#region Methods
 
-	private void X_CheckGround()
-	{
-		if (_playerIndex != PlayerIndex.Seeker)
-		{
-			// Prüfen ob Player fällt
-			if (Physics.Raycast(_playerRB.position, Vector3.down))
-			{
-				_inAir = false;
-			}
-			else
-			{
-				_inAir = true;
-			}
-			// Flag setzen
-			_dwarfAnimator.SetBool("InAir", _inAir);
-		}
-	}
-
 	private void X_SetAnimation(bool isMoving)
 	{
 		if (_playerIndex != PlayerIndex.Seeker)
@@ -133,6 +115,11 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		}
 	}
 
+	private void X_Jump()
+	{
+		_playerRB.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+	}
+
 	#region Input
 
 	public void SwitchProp(InputAction.CallbackContext ctx)
@@ -155,6 +142,16 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 			_model.SetActive(true);
 			_props[_currentProp].SetActive(false);
 
+		}
+	}
+
+	public void JumpAction(InputAction.CallbackContext ctx)
+	{
+		if(ctx.performed && ctx.ReadValue<float>() > 0f &&
+			!_inAir && !IsInvoking("X_Jump"))
+		{
+			Invoke("X_Jump", .5f);
+			_dwarfAnimator.SetTrigger("Jump");
 		}
 	}
 
@@ -218,6 +215,22 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		posNew = transform.TransformPoint(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
 		// Bewegen
 		_playerRB.MovePosition(posNew);
+	}
+
+	private void FixedUpdate()
+	{
+		// Prüfen ob Player fällt
+		if (!Physics.Linecast(transform.position + new Vector3(0f, 1f, 0f),
+													transform.position - new Vector3(0, 2f, 0)))
+		{
+			_inAir = true;
+		}
+		else
+		{
+			_inAir = false;
+		}
+		// Flag setzen
+		_dwarfAnimator.SetBool("InAir", _inAir);
 	}
 
 	private void OnDestroy()
