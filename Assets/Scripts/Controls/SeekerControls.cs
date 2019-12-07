@@ -35,14 +35,6 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""ca143d1e-cfe2-434a-9e75-7fb9f3d0d63a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""ShowProps"",
                     ""type"": ""Button"",
                     ""id"": ""839332d3-bbea-42df-add1-423ac8d761ce"",
@@ -51,10 +43,10 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""Shoot"",
                     ""type"": ""Button"",
-                    ""id"": ""67664105-2679-4cea-b225-64c04251a092"",
-                    ""expectedControlType"": ""Button"",
+                    ""id"": ""6a7a870c-6b95-45a1-b8d0-b63f13eb4e3a"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -128,17 +120,6 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0c3ef4ee-03f4-48ca-9469-7248f38c7dcb"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KB&M"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f20c9f13-62be-4309-87f1-319fe1ca1c87"",
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
@@ -150,12 +131,12 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a3a8da91-20e5-4c8c-974a-de576882cd9b"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""id"": ""7dfe1194-537a-4666-8aa7-2e43282d1f86"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""KB&M"",
-                    ""action"": ""Pause"",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -185,9 +166,8 @@ public class @SeekerControls : IInputActionCollection, IDisposable
         m_Ingame = asset.FindActionMap("Ingame", throwIfNotFound: true);
         m_Ingame_Look = m_Ingame.FindAction("Look", throwIfNotFound: true);
         m_Ingame_Move = m_Ingame.FindAction("Move", throwIfNotFound: true);
-        m_Ingame_Jump = m_Ingame.FindAction("Jump", throwIfNotFound: true);
         m_Ingame_ShowProps = m_Ingame.FindAction("ShowProps", throwIfNotFound: true);
-        m_Ingame_Pause = m_Ingame.FindAction("Pause", throwIfNotFound: true);
+        m_Ingame_Shoot = m_Ingame.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -239,18 +219,16 @@ public class @SeekerControls : IInputActionCollection, IDisposable
     private IIngameActions m_IngameActionsCallbackInterface;
     private readonly InputAction m_Ingame_Look;
     private readonly InputAction m_Ingame_Move;
-    private readonly InputAction m_Ingame_Jump;
     private readonly InputAction m_Ingame_ShowProps;
-    private readonly InputAction m_Ingame_Pause;
+    private readonly InputAction m_Ingame_Shoot;
     public struct IngameActions
     {
         private @SeekerControls m_Wrapper;
         public IngameActions(@SeekerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Look => m_Wrapper.m_Ingame_Look;
         public InputAction @Move => m_Wrapper.m_Ingame_Move;
-        public InputAction @Jump => m_Wrapper.m_Ingame_Jump;
         public InputAction @ShowProps => m_Wrapper.m_Ingame_ShowProps;
-        public InputAction @Pause => m_Wrapper.m_Ingame_Pause;
+        public InputAction @Shoot => m_Wrapper.m_Ingame_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Ingame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -266,15 +244,12 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnMove;
-                @Jump.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
                 @ShowProps.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnShowProps;
                 @ShowProps.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnShowProps;
                 @ShowProps.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnShowProps;
-                @Pause.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
-                @Pause.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
-                @Pause.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
+                @Shoot.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnShoot;
             }
             m_Wrapper.m_IngameActionsCallbackInterface = instance;
             if (instance != null)
@@ -285,15 +260,12 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
                 @ShowProps.started += instance.OnShowProps;
                 @ShowProps.performed += instance.OnShowProps;
                 @ShowProps.canceled += instance.OnShowProps;
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
             }
         }
     }
@@ -311,8 +283,7 @@ public class @SeekerControls : IInputActionCollection, IDisposable
     {
         void OnLook(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
         void OnShowProps(InputAction.CallbackContext context);
-        void OnPause(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }
