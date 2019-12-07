@@ -34,9 +34,9 @@ public class AudioManager : Singleton<AudioManager>
 		switch (type)
 		{
 			case AudioType.Music:
-				return SettingsManager.Instance.CurrentSettings.MusicVolume;
+				return /*SettingsManager.Instance.CurrentSettings.MusicVolume*/ 1f;
 			case AudioType.Sound:
-				return SettingsManager.Instance.CurrentSettings.SoundVolume;
+				return /*SettingsManager.Instance.CurrentSettings.SoundVolume*/ 1f;
 			default:
 				Debug.LogErrorFormat(this, "No volume setting for type {0}", type);
 				return 0f;
