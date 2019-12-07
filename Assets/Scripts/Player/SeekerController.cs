@@ -7,20 +7,23 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 	#region Fields
 
 	[SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private LayerMask _viewLayer;
 
-	private PropController.PlayerIndex _playerIndex = PropController.PlayerIndex.None;
+    private PropController.PlayerIndex _playerIndex = PropController.PlayerIndex.None;
 	private PlayerInput _inputModule = null;
 	private Rigidbody _playerRB = null;
 
 	private Vector2 _moveInput = Vector2.zero;
 	private Vector2 _lookInput = Vector2.zero;
 	private Quaternion _cameraLook = Quaternion.identity;
+    private Camera _mainCamera;
 
-	#endregion
 
-	#region Methods
+    #endregion
 
-	public void LookAction(InputAction.CallbackContext ctx)
+    #region Methods
+
+    public void LookAction(InputAction.CallbackContext ctx)
 	{
 		_lookInput = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
 		_lookInput.Normalize();
@@ -31,10 +34,28 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 		_moveInput = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
 		_moveInput.Normalize();
 	}
+    public void ShootAction(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            if (ctx.ReadValue<float>() > 0)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(_mainCamera.transform.position, _mainCamera.transform.forward, out hit, Mathf.Infinity, _viewLayer))
+                {
+                    if(hit.transform.tag == "Player")
+                    {
+                        Debug.Log("Hit Player");
+                        //hit.transform.gameObject.GetComponent<PropController>().KillPlayer();
+                    }
+                }
+            }
+        }
+    }
 
-	#region Overrides
+    #region Overrides
 
-	public void SetData(PropController.AxisUpdate data)
+    public void SetData(PropController.AxisUpdate data)
 	{
 		_cameraLook = Quaternion.Euler(0f, data.X, 0f);
 	}
@@ -51,8 +72,9 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 
 	private void Start()
 	{
-		// Cachen
-		_playerRB = GetComponent<Rigidbody>();
+        // Cachen
+        _mainCamera = Camera.main;
+        _playerRB = GetComponent<Rigidbody>();
 		_inputModule = GetComponent<PlayerInput>();
 		// Index updaten
 		_playerIndex = (PropController.PlayerIndex)_inputModule.playerIndex;
