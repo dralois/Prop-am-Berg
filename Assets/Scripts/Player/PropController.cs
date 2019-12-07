@@ -66,8 +66,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	[SerializeField] private float _moveSpeed = 5f;
 	[SerializeField] private PropSO[] _propList;
 	[SerializeField] private GameObject _model;
+    [SerializeField] private LayerMask _viewLayer;
 
-	private PropSO[] _availProps;
+    private PropSO[] _availProps;
 	private GameObject[] _props;
 	private Sprite[] _icons;
 	private int _currentProp;
@@ -142,11 +143,21 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
     private bool CheckIfVisible()
     {
         Vector3 viewPos = _mainCamera.WorldToViewportPoint(transform.position);
-        if (viewPos.x > 0f && viewPos.x <1f && viewPos.y > 0f && viewPos.y < 1f && viewPos.z > 0)
+        if (viewPos.x > 0f && viewPos.x < 1f && viewPos.y > 0f && viewPos.y < 1f && viewPos.z > 0)
         {
-            if()
+            RaycastHit hit;
+            Vector3 _dir = transform.position - _mainCamera.transform.position;
+            if (Physics.Raycast(_mainCamera.transform.position, _dir , out hit, Mathf.Infinity, _viewLayer))
+            {
+                Debug.Log(hit.transform.gameObject.name);
+                if (hit.transform == transform)
+                {
+                    Debug.DrawRay(_mainCamera.transform.position, _dir * hit.distance, Color.yellow);
+                    return true;
+                }
+            }
         }
-
+        return false;
     }
 
 	#region Input
@@ -289,7 +300,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	private void Update()
 	{
-		Vector3 posNew;
+
+        CheckIfVisible();
+        Vector3 posNew;
 		// Rotieren
 		_playerRB.MoveRotation(_cameraLook);
 		// Position updaten
@@ -303,8 +316,8 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	private void FixedUpdate()
 	{
-		// Prüfen ob Player fällt
-		if (!Physics.Linecast(transform.position + new Vector3(0f, 1f, 0f),
+        // Prüfen ob Player fällt
+        if (!Physics.Linecast(transform.position + new Vector3(0f, 1f, 0f),
 													transform.position - new Vector3(0, 2f, 0)))
 		{
 			_inAir = true;
