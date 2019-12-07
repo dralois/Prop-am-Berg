@@ -82,8 +82,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	private Vector2 _moveInput = Vector2.zero;
 	private Vector2 _lookInput = Vector2.zero;
 	private Quaternion _cameraLook = Quaternion.identity;
+    private Camera _mainCamera;
 
-	private bool _inAir = false;
+    private bool _inAir = false;
 
 	#endregion
 
@@ -137,6 +138,16 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	{
 		_playerRB.AddForce(Vector3.up * 10f, ForceMode.Impulse);
 	}
+
+    private bool CheckIfVisible()
+    {
+        Vector3 viewPos = _mainCamera.WorldToViewportPoint(transform.position);
+        if (viewPos.x > 0f && viewPos.x <1f && viewPos.y > 0f && viewPos.y < 1f && viewPos.z > 0)
+        {
+            if()
+        }
+
+    }
 
 	#region Input
 
@@ -265,8 +276,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_playerRB = GetComponent<Rigidbody>();
 		_inputModule = GetComponent<PlayerInput>();
 		_dwarfAnimator = GetComponentInChildren<Animator>();
-		// Index updaten
-		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
+        _mainCamera = Camera.main;
+        // Index updaten
+        _playerIndex = (PlayerIndex)_inputModule.playerIndex;
 		// zufällige Zuweisung von Props
 		X_SetProps();
 		// Service anbieten
