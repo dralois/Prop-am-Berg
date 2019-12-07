@@ -30,7 +30,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Sprint",
+                    "name": "ShowProps",
                     "type": "Button",
                     "id": "839332d3-bbea-42df-add1-423ac8d761ce",
                     "expectedControlType": "Button",
@@ -127,11 +127,11 @@
                 {
                     "name": "",
                     "id": "f20c9f13-62be-4309-87f1-319fe1ca1c87",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": "KB&M",
-                    "action": "Sprint",
+                    "action": "ShowProps",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

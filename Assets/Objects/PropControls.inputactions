@@ -30,7 +30,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Sprint",
+                    "name": "SelectProp",
                     "type": "Button",
                     "id": "839332d3-bbea-42df-add1-423ac8d761ce",
                     "expectedControlType": "Button",
@@ -98,7 +98,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Sprint",
+                    "action": "SelectProp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

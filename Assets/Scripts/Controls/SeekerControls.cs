@@ -43,7 +43,7 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Sprint"",
+                    ""name"": ""ShowProps"",
                     ""type"": ""Button"",
                     ""id"": ""839332d3-bbea-42df-add1-423ac8d761ce"",
                     ""expectedControlType"": ""Button"",
@@ -140,11 +140,11 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f20c9f13-62be-4309-87f1-319fe1ca1c87"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KB&M"",
-                    ""action"": ""Sprint"",
+                    ""action"": ""ShowProps"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -186,7 +186,7 @@ public class @SeekerControls : IInputActionCollection, IDisposable
         m_Ingame_Look = m_Ingame.FindAction("Look", throwIfNotFound: true);
         m_Ingame_Move = m_Ingame.FindAction("Move", throwIfNotFound: true);
         m_Ingame_Jump = m_Ingame.FindAction("Jump", throwIfNotFound: true);
-        m_Ingame_Sprint = m_Ingame.FindAction("Sprint", throwIfNotFound: true);
+        m_Ingame_ShowProps = m_Ingame.FindAction("ShowProps", throwIfNotFound: true);
         m_Ingame_Pause = m_Ingame.FindAction("Pause", throwIfNotFound: true);
     }
 
@@ -240,7 +240,7 @@ public class @SeekerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Ingame_Look;
     private readonly InputAction m_Ingame_Move;
     private readonly InputAction m_Ingame_Jump;
-    private readonly InputAction m_Ingame_Sprint;
+    private readonly InputAction m_Ingame_ShowProps;
     private readonly InputAction m_Ingame_Pause;
     public struct IngameActions
     {
@@ -249,7 +249,7 @@ public class @SeekerControls : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Ingame_Look;
         public InputAction @Move => m_Wrapper.m_Ingame_Move;
         public InputAction @Jump => m_Wrapper.m_Ingame_Jump;
-        public InputAction @Sprint => m_Wrapper.m_Ingame_Sprint;
+        public InputAction @ShowProps => m_Wrapper.m_Ingame_ShowProps;
         public InputAction @Pause => m_Wrapper.m_Ingame_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Ingame; }
         public void Enable() { Get().Enable(); }
@@ -269,9 +269,9 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnJump;
-                @Sprint.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnSprint;
-                @Sprint.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnSprint;
-                @Sprint.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnSprint;
+                @ShowProps.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnShowProps;
+                @ShowProps.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnShowProps;
+                @ShowProps.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnShowProps;
                 @Pause.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnPause;
@@ -288,9 +288,9 @@ public class @SeekerControls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Sprint.started += instance.OnSprint;
-                @Sprint.performed += instance.OnSprint;
-                @Sprint.canceled += instance.OnSprint;
+                @ShowProps.started += instance.OnShowProps;
+                @ShowProps.performed += instance.OnShowProps;
+                @ShowProps.canceled += instance.OnShowProps;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
@@ -312,7 +312,7 @@ public class @SeekerControls : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnSprint(InputAction.CallbackContext context);
+        void OnShowProps(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }
 }
