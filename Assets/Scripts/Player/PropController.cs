@@ -67,9 +67,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	[SerializeField] private PropSO[] _propList;
 	[SerializeField] private GameObject _model;
 	[SerializeField] private LayerMask _collideWith;
-    [SerializeField] private LayerMask _viewLayer;
+	[SerializeField] private LayerMask _viewLayer;
 
-    private PropSO[] _availProps;
+	private PropSO[] _availProps;
 	private GameObject[] _props;
 	private Sprite[] _icons;
 	private int _currentProp;
@@ -78,15 +78,16 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	private PlayerInput _inputModule = null;
 	private Animator _dwarfAnimator = null;
 	private Rigidbody _playerRB = null;
+	private Camera _mainCamera = null;
 
+	private bool _inView = false;
 	private bool _inProp = false;
 	private bool _switchPressed = false;
 	private Vector2 _moveInput = Vector2.zero;
 	private Vector2 _lookInput = Vector2.zero;
 	private Quaternion _cameraLook = Quaternion.identity;
-    private Camera _mainCamera;
 
-    private bool _inAir = false;
+	private bool _inAir = false;
 
 	#endregion
 
@@ -141,25 +142,32 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_playerRB.AddForce(Vector3.up * 10f, ForceMode.Impulse);
 	}
 
-    private bool CheckIfVisible()
-    {
-        Vector3 viewPos = _mainCamera.WorldToViewportPoint(transform.position);
-        if (viewPos.x > 0f && viewPos.x < 1f && viewPos.y > 0f && viewPos.y < 1f && viewPos.z > 0)
-        {
-            RaycastHit hit;
-            Vector3 _dir = transform.position - _mainCamera.transform.position;
-            if (Physics.Raycast(_mainCamera.transform.position, _dir , out hit, Mathf.Infinity, _viewLayer))
-            {
-                Debug.Log(hit.transform.gameObject.name);
-                if (hit.transform == transform)
-                {
-                    Debug.DrawRay(_mainCamera.transform.position, _dir * hit.distance, Color.yellow);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+	private bool X_CheckIfVisible()
+	{
+		Vector3 viewPos = _mainCamera.WorldToViewportPoint(transform.position);
+		if (viewPos.x > 0f && viewPos.x < 1f && viewPos.y > 0f && viewPos.y < 1f && viewPos.z > 0)
+		{
+			Vector3 _dir = transform.position - _mainCamera.transform.position;
+			if (Physics.Raycast(_mainCamera.transform.position, _dir, out RaycastHit hit, Mathf.Infinity, _viewLayer))
+			{
+				if (hit.transform == transform)
+				{
+					Debug.DrawRay(_mainCamera.transform.position, _dir * hit.distance, Color.yellow);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private void X_TrySwitchToProp(bool isNowProp)
+	{
+		if (_inProp == isNowProp)
+			return;
+		_inProp = isNowProp || _inView;
+		_model.SetActive(!_inProp);
+		_props[_currentProp].SetActive(_inProp);
+	}
 
 	#region Input
 
@@ -184,21 +192,13 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	public void SwitchToProp(InputAction.CallbackContext ctx)
 	{
-		if (ctx.performed)
+		if (ctx.performed && ctx.ReadValue<float>() > 0)
 		{
-			if (ctx.ReadValue<float>() > 0)
-			{
-				_inProp = true;
-				_model.SetActive(false);
-				_props[_currentProp].SetActive(true);
-			}
+			X_TrySwitchToProp(true);
 		}
 		else
 		{
-			_inProp = false;
-			_model.SetActive(true);
-			_props[_currentProp].SetActive(false);
-
+			X_TrySwitchToProp(false);
 		}
 	}
 
@@ -287,9 +287,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_playerRB = GetComponent<Rigidbody>();
 		_inputModule = GetComponent<PlayerInput>();
 		_dwarfAnimator = GetComponentInChildren<Animator>();
-        _mainCamera = Camera.main;
-        // Index updaten
-        _playerIndex = (PlayerIndex)_inputModule.playerIndex;
+		_mainCamera = Camera.main;
+		// Index updaten
+		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
 		// zufällige Zuweisung von Props
 		X_SetProps();
 		// Service anbieten
@@ -298,24 +298,22 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		ServiceLocator<GuiUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
-
-        CheckIfVisible();
-        Vector3 posNew;
+		// Visibility Check
+		bool wasInView = _inView;
+		_inView = X_CheckIfVisible();
 		// Rotieren
 		_playerRB.MoveRotation(_cameraLook);
 		// Position updaten
-		if (!_inProp)
+		if (!_inProp && !_inView)
 		{
-			posNew = transform.TransformPoint(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
+			Vector3 posNew = transform.TransformPoint(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
 			// Bewegen
 			_playerRB.MovePosition(posNew);
 		}
-	}
-
-	private void FixedUpdate()
-	{
+		// Prop an/aus
+		X_TrySwitchToProp((_inView || _inProp) && (_inView == wasInView));
 		// Prüfen ob Player fällt
 		if (!Physics.CheckSphere(transform.position, .5f, _collideWith))
 		{
