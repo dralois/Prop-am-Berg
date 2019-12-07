@@ -64,10 +64,10 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	#region Fields
 
 	[SerializeField] private float _moveSpeed = 5f;
-	[SerializeField] private ScruptableObjects[] _propList;
+	[SerializeField] private PropSO[] _propList;
 	[SerializeField] private GameObject _model;
 
-	private ScruptableObjects[] _availProps;
+	private PropSO[] _availProps;
 	private GameObject[] _props;
 	private Sprite[] _icons;
 	private int _currentProp;
@@ -112,7 +112,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		}
 		if (_propCount > 0)
 		{
-			_availProps = new ScruptableObjects[_propCount > 3 ? 4 : _propCount];
+			_availProps = new PropSO[_propCount > 3 ? 4 : _propCount];
 			_props = new GameObject[_propCount > 3 ? 4 : _propCount];
 			_icons = new Sprite[_propCount > 3 ? 4 : _propCount];
 
@@ -127,8 +127,8 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		// Instanziieren der Props als Childs
 		for (int k = 0; k < _availProps.Length; k++)
 		{
-			_props[k] = Instantiate(_availProps[k]._prop, transform);
-			_icons[k] = _availProps[k]._img;
+			_props[k] = Instantiate(_availProps[k].Prop, transform);
+			_icons[k] = _availProps[k].Icon;
 			_props[k].SetActive(false);
 		}
 	}

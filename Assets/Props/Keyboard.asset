@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c734725528e2acb41bf3e0b739b4ddcb, type: 3}
   m_Name: Keyboard
   m_EditorClassIdentifier: 
-  _prop: {fileID: 1528236619013596196, guid: 5fdfb15879596854cb238dc743a822ed, type: 3}
-  _img: {fileID: 21300000, guid: 2b2d0c0cad5351d42877c1cba1c3f637, type: 3}
+  Prop: {fileID: 1528236619013596196, guid: 5fdfb15879596854cb238dc743a822ed, type: 3}
+  Icon: {fileID: 21300000, guid: 2b2d0c0cad5351d42877c1cba1c3f637, type: 3}
