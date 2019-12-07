@@ -187,6 +187,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 3
   _propList:
+  - {fileID: 11400000, guid: 6e2bf5a5e8484474fa7008fd465495d9, type: 2}
+  - {fileID: 11400000, guid: d442b8a6225cfd540bd3e0212c7cff58, type: 2}
+  - {fileID: 11400000, guid: 02301f83021114d4083c12b7199fee1f, type: 2}
+  - {fileID: 11400000, guid: a9e621f7ea418e349ae95e6128d55dd4, type: 2}
   - {fileID: 11400000, guid: 88ec31c0e0a70b54480f01c3abb287f4, type: 2}
   _model: {fileID: 113328389189555038}
 --- !u!136 &695775075861920121

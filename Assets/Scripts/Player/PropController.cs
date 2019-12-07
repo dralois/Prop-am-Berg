@@ -118,7 +118,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 			for (int j = 0; j < _availProps.Length; j++)
 			{
-				int _currentIndex = Random.Range(0, _availIndex.Count);
+				int _currentIndex = _availIndex[Random.Range(0, _availIndex.Count)];
 				_availProps[j] = _propList[_currentIndex];
 				_availIndex.Remove(_currentIndex);
 			}
@@ -195,8 +195,34 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	public void MoveAction(InputAction.CallbackContext ctx)
 	{
 		_moveInput = ctx.performed ? ctx.ReadValue<Vector2>() : Vector2.zero;
-		X_SetAnimation(ctx.performed);
 		_moveInput.Normalize();
+		// Falls Auswahlrad gedrückt
+		if (_switchPressed)
+		{
+			float sectorAngle = Mathf.Atan2(_moveInput.y, _moveInput.x);
+			sectorAngle = (sectorAngle > 0 ? sectorAngle : (2 * Mathf.PI + sectorAngle)) * 360 / (2 * Mathf.PI);
+			if (sectorAngle > 45f && sectorAngle < 135f)
+			{
+				_currentProp = 0;
+			}
+			else if(sectorAngle > 135f && sectorAngle < 225f)
+			{
+				_currentProp = 3;
+			}
+			else if (sectorAngle > 225f && sectorAngle < 315f)
+			{
+
+				_currentProp = 2;
+			}
+			else
+			{
+				_currentProp = 1;
+			}
+		}
+		else
+		{
+			X_SetAnimation(ctx.performed);
+}
 	}
 
 	#endregion
@@ -204,81 +230,81 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	#region Overrides
 
 	public void SetData(AxisUpdate data)
+{
+	// Rotationen bestimmen
+	var camRot = Quaternion.Euler(0f, data.X, 0f);
+	var moveRot = Quaternion.LookRotation(new Vector3(_moveInput.x, 0f, _moveInput.y));
+	// ggf. speichern
+	_cameraLook = _moveInput.magnitude > 0f ? camRot * moveRot : _cameraLook;
+}
+
+public void SetData(Target data) { }
+
+public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y);
+
+Target Service<Target>.GetData() => new Target(transform);
+
+public void SetData(GuiUpdate data)
+{
+	throw new System.NotImplementedException();
+}
+
+GuiUpdate Service<GuiUpdate>.GetData() => new GuiUpdate(_moveInput.x, _moveInput.y, _switchPressed, _icons);
+
+#endregion
+
+#region Unity
+
+private void Start()
+{
+	// Cachen
+	_playerRB = GetComponent<Rigidbody>();
+	_inputModule = GetComponent<PlayerInput>();
+	_dwarfAnimator = GetComponentInChildren<Animator>();
+	// Index updaten
+	_playerIndex = (PlayerIndex)_inputModule.playerIndex;
+	// zufällige Zuweisung von Props
+	X_SetProps();
+	// Service anbieten
+	ServiceLocator<AxisUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
+	ServiceLocator<Target, PlayerIndex>.ProvideService(this, _playerIndex);
+	ServiceLocator<GuiUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
+}
+
+private void Update()
+{
+	Vector3 posNew;
+	// Rotieren
+	_playerRB.MoveRotation(_cameraLook);
+	// Position updaten
+	posNew = transform.TransformPoint(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
+	// Bewegen
+	_playerRB.MovePosition(posNew);
+}
+
+private void FixedUpdate()
+{
+	// Prüfen ob Player fällt
+	if (!Physics.Linecast(transform.position + new Vector3(0f, 1f, 0f),
+												transform.position - new Vector3(0, 2f, 0)))
 	{
-		// Rotationen bestimmen
-		var camRot = Quaternion.Euler(0f, data.X, 0f);
-		var moveRot = Quaternion.LookRotation(new Vector3(_moveInput.x, 0f, _moveInput.y));
-		// ggf. speichern
-		_cameraLook = _moveInput.magnitude > 0f ? camRot * moveRot : _cameraLook;
+		_inAir = true;
 	}
-
-	public void SetData(Target data) { }
-
-	public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y);
-
-	Target Service<Target>.GetData() => new Target(transform);
-
-	public void SetData(GuiUpdate data)
+	else
 	{
-		throw new System.NotImplementedException();
+		_inAir = false;
 	}
+	// Flag setzen
+	_dwarfAnimator.SetBool("InAir", _inAir);
+}
 
-	GuiUpdate Service<GuiUpdate>.GetData() => new GuiUpdate(_moveInput.x, _moveInput.y, _switchPressed, _icons);
-
-	#endregion
-
-	#region Unity
-
-	private void Start()
-	{
-		// Cachen
-		_playerRB = GetComponent<Rigidbody>();
-		_inputModule = GetComponent<PlayerInput>();
-		_dwarfAnimator = GetComponentInChildren<Animator>();
-		// Index updaten
-		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
-		// zufällige Zuweisung von Props
-		X_SetProps();
-		// Service anbieten
-		ServiceLocator<AxisUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
-		ServiceLocator<Target, PlayerIndex>.ProvideService(this, _playerIndex);
-		ServiceLocator<GuiUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
-	}
-
-	private void Update()
-	{
-		Vector3 posNew;
-		// Rotieren
-		_playerRB.MoveRotation(_cameraLook);
-		// Position updaten
-		posNew = transform.TransformPoint(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed);
-		// Bewegen
-		_playerRB.MovePosition(posNew);
-	}
-
-	private void FixedUpdate()
-	{
-		// Prüfen ob Player fällt
-		if (!Physics.Linecast(transform.position + new Vector3(0f, 1f, 0f),
-													transform.position - new Vector3(0, 2f, 0)))
-		{
-			_inAir = true;
-		}
-		else
-		{
-			_inAir = false;
-		}
-		// Flag setzen
-		_dwarfAnimator.SetBool("InAir", _inAir);
-	}
-
-	private void OnDestroy()
-	{
-		// Service entfernen
-		ServiceLocator<AxisUpdate, PlayerIndex>.WithdrawService(_playerIndex);
-		ServiceLocator<Target, PlayerIndex>.WithdrawService(_playerIndex);
-		ServiceLocator<GuiUpdate, PlayerIndex>.WithdrawService(_playerIndex);
-	}
+private void OnDestroy()
+{
+	// Service entfernen
+	ServiceLocator<AxisUpdate, PlayerIndex>.WithdrawService(_playerIndex);
+	ServiceLocator<Target, PlayerIndex>.WithdrawService(_playerIndex);
+	ServiceLocator<GuiUpdate, PlayerIndex>.WithdrawService(_playerIndex);
+}
 
 
 
