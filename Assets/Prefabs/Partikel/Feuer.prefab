@@ -4765,7 +4765,7 @@ GameObject:
   - component: {fileID: 4802186172740777096}
   - component: {fileID: 4802186172740777097}
   m_Layer: 0
-  m_Name: Feuer 1
+  m_Name: Feuer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9466,6 +9466,10 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
@@ -14214,7 +14218,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 1
   m_Materials:
-  - {fileID: 2100000, guid: 337289957a8088246940f120ebbbb5ec, type: 2}
+  - {fileID: 2100000, guid: 591c03c7ade0070458f2f5e8ebfbf173, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -18967,7 +18971,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 54b452242038f5c4dbfc00aa55583fec, type: 2}
+  - {fileID: 2100000, guid: 7a6612aa4fc1a6d468f1e6c920c9aec5, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
