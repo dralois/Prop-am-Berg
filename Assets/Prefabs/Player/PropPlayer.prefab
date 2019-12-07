@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 610303092608098555}
-  - component: {fileID: 610303092608098554}
   - component: {fileID: 7602784910696580561}
+  - component: {fileID: 610303092608098554}
   - component: {fileID: 437848248}
   - component: {fileID: 437848247}
   m_Layer: 0
@@ -34,19 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &610303092608098554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 610303092608098552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcfba39225b6e6b47b191551974ca123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerIndex: 0
 --- !u!114 &7602784910696580561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,18 +57,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6c134622-f826-4004-9987-09139fd1b177
-    m_ActionName: Menu/Navigate[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/rightStick,/XInputControllerWindows/dpad]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 542f0f02-40ab-4d4d-b502-bb97e7892d73
-    m_ActionName: Menu/Accept[/Mouse/leftButton,/Keyboard/enter,/XInputControllerWindows/buttonSouth]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e93d13b4-e125-4529-aea6-aad3c6f475e4
-    m_ActionName: Menu/Decline[/XInputControllerWindows/buttonEast,/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 610303092608098554}
@@ -129,6 +104,19 @@ MonoBehaviour:
   m_DefaultActionMap: Ingame
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &610303092608098554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610303092608098552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfba39225b6e6b47b191551974ca123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerIndex: -1
 --- !u!33 &437848248
 MeshFilter:
   m_ObjectHideFlags: 0
