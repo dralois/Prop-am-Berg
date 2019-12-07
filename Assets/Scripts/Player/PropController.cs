@@ -44,18 +44,21 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	}
 	public struct GuiUpdate
 	{
-		public bool _buttonPressed { get; private set; }
-
 		public float X { get; private set; }
 		public float Y { get; private set; }
-		public Sprite[] _spriteArray { get; private set; }
+		public bool ButtonPressed { get; private set; }
+		public bool DidWin { get; private set; }
+		public bool DidLose { get; private set; }
+		public Sprite[] Icons { get; private set; }
 
-		public GuiUpdate(float x, float y, bool pressed, Sprite[] s)
+		public GuiUpdate(float x, float y, bool pressed, bool didWin, bool didLose, Sprite[] icons)
 		{
 			X = x;
 			Y = y;
-			_buttonPressed = pressed;
-			_spriteArray = s;
+			ButtonPressed = pressed;
+			DidWin = didWin;
+			DidLose = didLose;
+			Icons = icons;
 		}
 
 	}
@@ -88,13 +91,26 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	private Quaternion _cameraLook = Quaternion.identity;
 
 	private bool _inAir = false;
+	private bool _didWin = false;
+	private bool _didLose = false;
 
 	#endregion
 
 	#region Methods
 
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("Finish"))
+			WinPlayer();
+	}
+
 	private void X_SetAnimation(bool isMoving)
 	{
+		if (_didWin || _didLose || !GameManager.Instance.GameStarted)
+		{
+			_dwarfAnimator.SetBool("Walking", false);
+			return;
+		}
 		if (_playerIndex != PlayerIndex.Seeker)
 		{
 			if (isMoving)
@@ -167,6 +183,20 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_inProp = isNowProp || _inView;
 		_model.SetActive(!_inProp);
 		_props[_currentProp].SetActive(_inProp);
+	}
+
+	public void KillPlayer()
+	{
+		_didLose = true;
+		_model.SetActive(true);
+		_props[_currentProp].SetActive(false);
+	}
+
+	public void WinPlayer()
+	{
+		_didWin = true;
+		_model.SetActive(true);
+		_props[_currentProp].SetActive(false);
 	}
 
 	#region Input
@@ -259,7 +289,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	{
 		// Rotationen bestimmen
 		var camRot = Quaternion.Euler(0f, data.X, 0f);
-		var moveRot = Quaternion.LookRotation(new Vector3(_moveInput.x, 0f, _moveInput.y));
+		var moveRot = _moveInput.magnitude > 0f ? Quaternion.LookRotation(new Vector3(_moveInput.x, 0f, _moveInput.y)) : Quaternion.identity;
 		// ggf. speichern
 		_cameraLook = _moveInput.magnitude > 0f ? camRot * moveRot : _cameraLook;
 	}
@@ -270,12 +300,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	Target Service<Target>.GetData() => new Target(transform);
 
-	public void SetData(GuiUpdate data)
-	{
-		throw new System.NotImplementedException();
-	}
+	public void SetData(GuiUpdate data) { }
 
-	GuiUpdate Service<GuiUpdate>.GetData() => new GuiUpdate(_moveInput.x, _moveInput.y, _switchPressed, _icons);
+	GuiUpdate Service<GuiUpdate>.GetData() => new GuiUpdate(_moveInput.x, _moveInput.y, _switchPressed, _didWin, _didLose, _icons);
 
 	#endregion
 
@@ -296,10 +323,15 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		ServiceLocator<AxisUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
 		ServiceLocator<Target, PlayerIndex>.ProvideService(this, _playerIndex);
 		ServiceLocator<GuiUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
+		// 
+		GameManager.Instance.SpawnMe(transform);
 	}
 
 	private void FixedUpdate()
 	{
+		// Early out
+		if(_didLose ||_didWin || !GameManager.Instance.GameStarted)
+			return;
 		// Visibility Check
 		bool wasInView = _inView;
 		_inView = X_CheckIfVisible();
@@ -325,11 +357,6 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		}
 		// Flag setzen
 		_dwarfAnimator.SetBool("InAir", _inAir);
-	}
-
-	private void OnDrawGizmos()
-	{
-		Gizmos.DrawWireSphere(transform.position, .5f);
 	}
 
 	private void OnDestroy()
