@@ -26,14 +26,14 @@ public class CustomAudioSource : MonoBehaviour
 
     public IEnumerator playSound(float startWait)
     {
-        Debug.Log("sound source did stuff");
+        //Debug.Log("sound source did stuff");
         yield return new WaitForSeconds(startWait);
         //Debug.Log(this.name + " tried to play a sound");
 
         if (myClip == null) Debug.LogError("Please assign the audioclip of " + this.name);
         else
         {
-            int index = Random.Range(0, myClip.Length);
+            int index = Random.Range(0, myClip.Length-1);
             AudioManager.Instance.Play(AudioManager.AudioType.Sound, myClip[index], loop, randomize, noDuplicate);
             //Debug.Log(this.name + " played " + myClip[index].name);
 
