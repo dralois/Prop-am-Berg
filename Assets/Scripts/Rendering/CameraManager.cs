@@ -122,7 +122,7 @@ public class CameraManager : MonoBehaviour
 				_seekerPOV.m_HorizontalAxis.Update(Time.deltaTime);
 				_seekerPOV.m_VerticalAxis.Update(Time.deltaTime);
 				// Kamera Rotation zurückschreiben
-				_axisService.SetData(new AxisUpdate(transform.rotation.eulerAngles.y, 0f));
+				_axisService.SetData(new AxisUpdate(_seekerCam.State.FinalOrientation.eulerAngles.y, 0f));
 			}
 			else
 			{
@@ -132,7 +132,8 @@ public class CameraManager : MonoBehaviour
 				_freeLookComp.m_XAxis.Update(Time.deltaTime);
 				_freeLookComp.m_YAxis.Update(Time.deltaTime);
 				// Kamera Position zurückschreiben
-				_axisService.SetData(new AxisUpdate(transform.position.x, transform.position.z));
+				_axisService.SetData(new AxisUpdate(_freeLookComp.State.FinalOrientation.eulerAngles.y, 0f));
+				
 			}
 		}
 	}

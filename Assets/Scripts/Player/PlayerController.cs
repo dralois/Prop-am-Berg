@@ -81,16 +81,17 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 	public void SetData(AxisUpdate data)
 	{
 		// Rotation je nach dem updaten
-		if(_playerIndex == PlayerIndex.Seeker)
+		if (_playerIndex == PlayerIndex.Seeker)
 		{
 			_cameraLook = Quaternion.Euler(0f, data.X, 0f);
 		}
 		else
 		{
-			_cameraLook = Quaternion.LookRotation(new Vector3(transform.position.x - data.X,
-																												0f,
-																												transform.position.z - data.Y),
-																						Vector3.up);
+			// Rotationen bestimmen
+			var camRot = Quaternion.Euler(0f, data.X, 0f);
+			var moveRot = Quaternion.LookRotation(new Vector3(_moveInput.x, 0f, _moveInput.y));
+			// ggf. speichern
+			_cameraLook = _moveInput.magnitude > 0f ? camRot * moveRot : _cameraLook;
 		}
 	}
 
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 		// Rotieren
 		transform.rotation = _cameraLook;
 		// Bewegen
-		transform.Translate(new Vector3(_moveInput.x, 0f, _moveInput.y) * Time.deltaTime * _moveSpeed, Space.Self);
+		transform.Translate(Vector3.forward * _moveInput.magnitude * Time.deltaTime * _moveSpeed, Space.Self);
 	}
 
 	private void OnDestroy()
