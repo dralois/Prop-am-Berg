@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 	public enum PlayerIndex : int
 	{
 		None = -1,
+		Seeker,
 		One,
 		Two,
 		Three,
@@ -21,11 +22,13 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 
 	public struct AxisUpdate
 	{
+		public Transform Target { get; private set; }
 		public float X { get; private set; }
 		public float Y { get; private set; }
 
-		public AxisUpdate(float x, float y)
+		public AxisUpdate(float x, float y, Transform target)
 		{
+			Target = target;
 			X = x;
 			Y = y;
 		}
@@ -35,12 +38,13 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 
 	#region Fields
 
-	[SerializeField] private PlayerIndex _playerIndex = PlayerIndex.None;
+	[SerializeField] private float _moveSpeed = 5f;
 
+	private PlayerIndex _playerIndex = PlayerIndex.None;
 	private PlayerInput _inputModule = null;
+
 	private Vector2 _moveInput = Vector2.zero;
 	private Vector2 _lookInput = Vector2.zero;
-
 	private Vector3 _cameraLook = Vector3.zero;
 
 	#endregion
@@ -66,7 +70,7 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 		_cameraLook = new Vector3(transform.position.x - data.X, 0f, transform.position.z - data.Y);
 	}
 
-	public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y);
+	public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y, transform);
 
 	#endregion
 
@@ -75,14 +79,19 @@ public class PlayerController : MonoBehaviour, Service<PlayerController.AxisUpda
 	private void OnEnable()
 	{
 		_inputModule = GetComponent<PlayerInput>();
-		_playerIndex = (PlayerIndex)_inputModule.user.index;
+		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
 		ServiceLocator<AxisUpdate, PlayerIndex>.ProvideService(this, _playerIndex);
 	}
 
 	private void Update()
 	{
-		transform.rotation = Quaternion.LookRotation(_cameraLook, Vector3.up);
-		transform.Translate(new Vector3(_moveInput.x, 0f, _moveInput.y) * Time.deltaTime * 5f, Space.Self);
+		// ggf. Rotieren
+		if(_cameraLook != Vector3.zero && _playerIndex != PlayerIndex.Seeker)
+		{
+			transform.rotation = Quaternion.LookRotation(_cameraLook, Vector3.up);
+		}
+		// Bewegen
+		transform.Translate(new Vector3(_moveInput.x, 0f, _moveInput.y) * Time.deltaTime * _moveSpeed, Space.Self);
 	}
 
 	private void OnDisable()
