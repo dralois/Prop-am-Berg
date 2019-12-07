@@ -35,6 +35,13 @@ public static class ServiceLocator<V, E> where V : struct where E : System.Enum
 
 	#endregion
 
+	#region Events
+
+	public static event System.Action<E> OnServiceAdded;
+	public static event System.Action<E> OnServiceRemoved;
+
+	#endregion
+
 	#region Methods
 
 	/// <summary>
@@ -72,6 +79,7 @@ public static class ServiceLocator<V, E> where V : struct where E : System.Enum
 				Debug.LogWarningFormat("A service for data type {0} was already registered, " +
 															 "it will be overwritten by {1}.", typeof(V), provider.GetType());
 				_serviceContainer[target] = provider;
+				OnServiceAdded?.Invoke(target);
 			}
 		}
 		else
@@ -80,6 +88,7 @@ public static class ServiceLocator<V, E> where V : struct where E : System.Enum
 			lock (_lock)
 			{
 				_serviceContainer.Add(target, provider);
+				OnServiceAdded?.Invoke(target);
 			}
 		}
 	}
@@ -94,6 +103,7 @@ public static class ServiceLocator<V, E> where V : struct where E : System.Enum
 		lock (_lock)
 		{
 			_serviceContainer.Remove(target);
+			OnServiceRemoved?.Invoke(target);
 		}
 	}
 
