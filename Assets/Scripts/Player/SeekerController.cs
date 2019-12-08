@@ -84,7 +84,7 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 
 	public PropController.AxisUpdate GetData() => new PropController.AxisUpdate(_lookInput.x, _lookInput.y);
 
-	PropController.Target Service<PropController.Target>.GetData() => new PropController.Target(transform);
+	PropController.Target Service<PropController.Target>.GetData() => new PropController.Target(transform, transform);
 
 	#endregion
 

@@ -36,10 +36,12 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	public struct Target
 	{
 		public Transform Player { get; private set; }
+        public Transform Head { get; private set; }
 
-		public Target(Transform target)
+        public Target(Transform target, Transform hTarget)
 		{
 			Player = target;
+            Head = hTarget;
 		}
 	}
 	public struct GuiUpdate
@@ -68,8 +70,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	[SerializeField] private GameObject _model;
 	[SerializeField] private LayerMask _collideWith;
 	[SerializeField] private LayerMask _viewLayer;
+    [SerializeField] private ParticleSystem _magicEffect;
 
-	private PropSO[] _availProps;
+    private PropSO[] _availProps;
 	private GameObject[] _props;
 	private Sprite[] _icons;
 	private int _currentProp;
@@ -139,8 +142,12 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	private void X_Jump()
 	{
-		_playerRB.AddForce(Vector3.up * 10f, ForceMode.Impulse);
-	}
+        if (!_inAir)
+        {
+            _playerRB.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+        }
+        _inAir = true;
+    }
 
 	private bool X_CheckIfVisible()
 	{
@@ -167,6 +174,28 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_inProp = isNowProp || _inView;
 		_model.SetActive(!_inProp);
 		_props[_currentProp].SetActive(_inProp);
+<<<<<<< Updated upstream
+=======
+		AudioManager.Instance.Play(AudioManager.AudioType.Sound, transformSound, false, true, false);
+        _magicEffect.Play();
+	}
+
+	public void KillPlayer()
+	{
+		_didLose = true;
+		_model.SetActive(true);
+		_props[_currentProp].SetActive(false);
+		GameManager.Instance.DeadPlayerCount++;
+	}
+
+	public void WinPlayer()
+	{
+		_didWin = true;
+		_model.SetActive(true);
+		_props[_currentProp].SetActive(false);
+		_dwarfAnimator.SetBool("Walking", true);
+		GameManager.Instance.WonPlayerCount++;
+>>>>>>> Stashed changes
 	}
 
 	#region Input
@@ -268,7 +297,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y);
 
-	Target Service<Target>.GetData() => new Target(transform);
+	Target Service<Target>.GetData() => new Target(transform, transform.GetChild(1));
 
 	public void SetData(GuiUpdate data)
 	{
@@ -287,7 +316,8 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_playerRB = GetComponent<Rigidbody>();
 		_inputModule = GetComponent<PlayerInput>();
 		_dwarfAnimator = GetComponentInChildren<Animator>();
-		_mainCamera = Camera.main;
+        _magicEffect = GetComponentInChildren<ParticleSystem>();
+        _mainCamera = Camera.main;
 		// Index updaten
 		_playerIndex = (PlayerIndex)_inputModule.playerIndex;
 		// zufällige Zuweisung von Props
@@ -300,6 +330,23 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	private void FixedUpdate()
 	{
+<<<<<<< Updated upstream
+=======
+		// Early out
+		if (_didLose || _didWin || !GameManager.Instance.GameStarted)
+			return;
+		if(transform.position.y < -0.1f)
+		{
+			transform.position += new Vector3(0f, .3f, 0f);
+		}
+		bool playSound = false;
+		passedTime += Time.fixedDeltaTime;
+		if (passedTime >= waitTime)
+		{
+			passedTime = 0;
+			playSound = true;
+		}
+>>>>>>> Stashed changes
 		// Visibility Check
 		bool wasInView = _inView;
 		_inView = X_CheckIfVisible();
@@ -315,7 +362,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		// Prop an/aus
 		X_TrySwitchToProp((_inView || _inProp) && (_inView == wasInView));
 		// Prüfen ob Player fällt
-		if (!Physics.CheckSphere(transform.position, .5f, _collideWith))
+		if (!Physics.CheckSphere(transform.position, .1f, _collideWith))
 		{
 			_inAir = true;
 		}
