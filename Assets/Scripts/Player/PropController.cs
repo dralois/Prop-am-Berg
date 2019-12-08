@@ -4,15 +4,20 @@ using System.Collections.Generic;
 
 public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>, Service<PropController.Target>, Service<PropController.GuiUpdate>
 {
+    //sounds
 	private float passedTime = 0;
 	private float waitTime = 0.626f;
 	[SerializeField] private AudioClip walkSound;
 	[SerializeField] private AudioClip transformSound;
 
+    //jump bug fixes
+    private float lastJumpTime = 0;
+    [SerializeField] private float jumpCooldown = 0.25f;
 
-	#region Enums
 
-	public enum PlayerIndex : int
+    #region Enums
+
+    public enum PlayerIndex : int
 	{
 		None = -1,
 		Seeker,
@@ -158,7 +163,11 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	private void X_Jump()
 	{
-		_playerRB.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+        if (Time.time - lastJumpTime >= jumpCooldown)//make sure you cant super jump
+        {
+            lastJumpTime = Time.time;
+            _playerRB.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+        }
 	}
 
 	private bool X_CheckIfVisible()
@@ -375,8 +384,11 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		}
 		// Prop an/aus
 		X_TrySwitchToProp((_inView || _inProp) && (_inView == wasInView));
-		// Prüfen ob Player fällt
-		if (!Physics.CheckSphere(transform.position, .5f, _collideWith))
+        // Prüfen ob Player fällt
+        //FIXME: allows for powerjumps. radius too large?
+        if (!Physics.CheckSphere(transform.position, .5f, _collideWith))
+        //Debug.Log((Physics.Raycast(transform.position, Vector3.down, .51f, _collideWith)));
+        //if(!Physics.Raycast(transform.position, Vector3.down, .51f, _collideWith))
 		{
 			_inAir = true;
 		}
@@ -396,8 +408,13 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		ServiceLocator<GuiUpdate, PlayerIndex>.WithdrawService(_playerIndex);
 	}
 
-	#endregion
+    #endregion
 
-	#endregion
+    #endregion
 
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, transform.position - Vector3.down * .51f);
+    }
 }
