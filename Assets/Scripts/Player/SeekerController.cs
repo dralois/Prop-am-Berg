@@ -12,6 +12,7 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 	[SerializeField] private int _energyDrain = 1;
 	[SerializeField] private Transform _rechargeStation;
 	[SerializeField] private Canvas _droneUi;
+	[SerializeField] private GameObject _droneWinObj;
 	[SerializeField] private ParticleSystem _laserBeam;
 
 	private PropController.PlayerIndex _playerIndex = PropController.PlayerIndex.None;
@@ -64,6 +65,10 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 					if (hit.transform.CompareTag("Player"))
 					{
 						hit.transform.gameObject.GetComponent<PropController>().KillPlayer();
+						if(GameManager.Instance.PlayerCount == GameManager.Instance.DeadPlayerCount)
+						{
+							_droneWinObj.SetActive(true);
+						}
 					}
 				}
 			}
