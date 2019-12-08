@@ -54,7 +54,7 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 	{
 		if (ctx.ReadValue<float>() > 0 && ctx.performed)
 		{
-			if (_energy > 10 && !_recharging)
+			if (_energy > 70 && !_recharging)
 			{
 				_laserBeam.Play();
 				AudioManager.Instance.Play(AudioManager.AudioType.Sound, _audioClip, false, true, false);
