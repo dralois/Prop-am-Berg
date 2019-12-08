@@ -10,13 +10,50 @@ public class GameManager : Singleton<GameManager>
 	private List<GameObject> _spawns = null;
 	private int _countdown = 10;
 
+	private int _deadPlayerCount = 0;
+	private int _wonPlayerCount = 0;
+
 	public bool GameStarted { get; private set; } = false;
+
+	public int PlayerCount { get; private set; }
+
+	public int DeadPlayerCount
+	{
+		get => _deadPlayerCount;
+		set
+		{
+			_deadPlayerCount = value;
+			if(PlayerCount == DeadPlayerCount + WonPlayerCount)
+			{
+				Invoke("X_LoadMain", 3f);
+			}
+		}
+	}
+
+	public int WonPlayerCount
+	{
+		get => _wonPlayerCount;
+		set
+		{
+			_wonPlayerCount = value;
+			if (PlayerCount == DeadPlayerCount + WonPlayerCount)
+			{
+				Invoke("X_LoadMain", 3f);
+			}
+		}
+	}
 
 	public void SpawnMe(Transform toSpawn)
 	{
 		GameObject _randomSpawn = _spawns[Random.Range(0, _spawns.Count)];
 		toSpawn.position = _randomSpawn.transform.position;
 		_spawns.Remove(_randomSpawn);
+		PlayerCount++;
+	}
+
+	private void X_LoadMain()
+	{
+		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 
 	private void X_Countdown()

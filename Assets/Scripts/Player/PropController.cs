@@ -96,6 +96,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	private Quaternion _cameraLook = Quaternion.identity;
 
 	private bool _inAir = false;
+	private bool _didJump = false;
 	private bool _didWin = false;
 	private bool _didLose = false;
 
@@ -193,6 +194,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_didLose = true;
 		_model.SetActive(true);
 		_props[_currentProp].SetActive(false);
+		GameManager.Instance.DeadPlayerCount++;
 	}
 
 	public void WinPlayer()
@@ -201,6 +203,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_model.SetActive(true);
 		_props[_currentProp].SetActive(false);
 		_dwarfAnimator.SetBool("Walking", true);
+		GameManager.Instance.WonPlayerCount++;
 	}
 
 	#region Input
@@ -345,6 +348,10 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		// Early out
 		if (_didLose || _didWin || !GameManager.Instance.GameStarted)
 			return;
+		if(transform.position.y < 0)
+		{
+			transform.position += new Vector3(0f, .3f, 0f);
+		}
 		bool playSound = false;
 		passedTime += Time.fixedDeltaTime;
 		if (passedTime >= waitTime)
