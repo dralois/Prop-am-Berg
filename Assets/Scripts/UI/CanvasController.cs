@@ -43,7 +43,7 @@ public class CanvasController : MonoBehaviour
 				_winObj.text = $"YOU CAME IN {_winCount}!";
 				_winObj.transform.parent.gameObject.SetActive(data.DidWin);
 				_loseObj.SetActive(data.DidLose);
-				_disableObj.SetActive(true);
+				_disableObj.SetActive(data.DidLose);
 				_winLoseChecked = true;
 			}
 			else if (data.ButtonPressed)

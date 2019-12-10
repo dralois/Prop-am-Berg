@@ -9,10 +9,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	private float waitTime = 0.626f;
 	[SerializeField] private AudioClip walkSound;
 	[SerializeField] private AudioClip transformSound;
-
-    //jump bug fixes
-    private float lastJumpTime = 0;
-    [SerializeField] private float jumpCooldown = 0.25f;
+	[SerializeField] private Material ice;
+    [SerializeField] private Renderer iceRender;
+    
 
 
     #region Enums
@@ -46,10 +45,12 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	public struct Target
 	{
 		public Transform Player { get; private set; }
+        public Transform Head { get; private set; }
 
-		public Target(Transform target)
+        public Target(Transform target, Transform hTarget)
 		{
 			Player = target;
+            Head = hTarget;
 		}
 	}
 	public struct GuiUpdate
@@ -82,7 +83,8 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 	[SerializeField] private LayerMask _collideWith;
 	[SerializeField] private LayerMask _viewLayer;
 
-	private PropSO[] _availProps;
+    private ParticleSystem _magicEffects;
+    private PropSO[] _availProps;
 	private GameObject[] _props;
 	private Sprite[] _icons;
 	private int _currentProp;
@@ -163,11 +165,11 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	private void X_Jump()
 	{
-        if (Time.time - lastJumpTime >= jumpCooldown)//make sure you cant super jump
+        if (!_inAir)
         {
-            lastJumpTime = Time.time;
             _playerRB.AddForce(Vector3.up * 10f, ForceMode.Impulse);
         }
+        _inAir = true;
 	}
 
 	private bool X_CheckIfVisible()
@@ -190,12 +192,15 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	private void X_TrySwitchToProp(bool isNowProp)
 	{
+        if(isNowProp)
+            Debug.Log("button pressed");
 		if (_inProp == isNowProp)
 			return;
 		_inProp = isNowProp || _inView;
 		_model.SetActive(!_inProp);
 		_props[_currentProp].SetActive(_inProp);
 		AudioManager.Instance.Play(AudioManager.AudioType.Sound, transformSound, false, true, false);
+        _magicEffects.Play();
 	}
 
 	public void KillPlayer()
@@ -204,7 +209,9 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		_model.SetActive(true);
 		_props[_currentProp].SetActive(false);
 		GameManager.Instance.DeadPlayerCount++;
-	}
+        Material[] add = new Material[2] { ice, ice };
+        iceRender.materials =add;
+    }
 
 	public void WinPlayer()
 	{
@@ -241,7 +248,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	public void SwitchToProp(InputAction.CallbackContext ctx)
 	{
-		if (_didWin || _didLose || !GameManager.Instance.GameStarted || _inView)
+		if (_didWin || _didLose || !GameManager.Instance.GameStarted || _inView || _switchPressed)
 			return;
 		if (ctx.performed && ctx.ReadValue<float>() > 0)
 		{
@@ -323,7 +330,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	public AxisUpdate GetData() => new AxisUpdate(_lookInput.x, _lookInput.y);
 
-	Target Service<Target>.GetData() => new Target(transform);
+	Target Service<Target>.GetData() => new Target(transform, transform.GetChild(1).transform);
 
 	public void SetData(GuiUpdate data) { }
 
@@ -335,7 +342,8 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 
 	private void Start()
 	{
-		// Cachen
+        // Cachen
+        _magicEffects = GetComponentInChildren<ParticleSystem>();
 		_playerRB = GetComponent<Rigidbody>();
 		_inputModule = GetComponent<PlayerInput>();
 		_dwarfAnimator = GetComponentInChildren<Animator>();
@@ -357,7 +365,7 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		// Early out
 		if (_didLose || _didWin || !GameManager.Instance.GameStarted)
 			return;
-		if(transform.position.y < 0)
+		if(transform.position.y < -0.1f)
 		{
 			transform.position += new Vector3(0f, .3f, 0f);
 		}
@@ -372,7 +380,8 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 		bool wasInView = _inView;
 		_inView = X_CheckIfVisible();
 		// Rotieren
-		_playerRB.MoveRotation(_cameraLook);
+        if(!_inView)
+		    _playerRB.MoveRotation(_cameraLook);
 		// Position updaten
 		if (!_inProp && !_inView)
 		{
@@ -383,10 +392,10 @@ public class PropController : MonoBehaviour, Service<PropController.AxisUpdate>,
 			if (_moveInput.magnitude > 0.1f && playSound) AudioManager.Instance.Play(AudioManager.AudioType.Sound, walkSound, false, true, false);
 		}
 		// Prop an/aus
-		X_TrySwitchToProp((_inView || _inProp) && (_inView == wasInView));
+		X_TrySwitchToProp((_inView || _inProp) && (_inView == wasInView) );
         // Prüfen ob Player fällt
         //FIXME: allows for powerjumps. radius too large?
-        if (!Physics.CheckSphere(transform.position, .5f, _collideWith))
+        if (!Physics.CheckSphere(transform.position, .1f, _collideWith))
         //Debug.Log((Physics.Raycast(transform.position, Vector3.down, .51f, _collideWith)));
         //if(!Physics.Raycast(transform.position, Vector3.down, .51f, _collideWith))
 		{

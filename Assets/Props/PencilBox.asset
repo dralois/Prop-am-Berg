@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c734725528e2acb41bf3e0b739b4ddcb, type: 3}
   m_Name: PencilBox
   m_EditorClassIdentifier: 
-  Prop: {fileID: 0}
-  Icon: {fileID: 0}
+  Prop: {fileID: 717765615953575222, guid: c53334e30c6b601478f3693c304a399d, type: 3}
+  Icon: {fileID: 21300000, guid: 383a5fdf52bb7bf498356fb2b4b152db, type: 3}

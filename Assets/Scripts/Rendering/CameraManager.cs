@@ -53,7 +53,8 @@ public class CameraManager : MonoBehaviour
 			{
 				_freeLookComp.Follow = targetService.GetData().Player;
 				_freeLookComp.LookAt = targetService.GetData().Player;
-			}
+                _freeLookComp.GetRig(2).LookAt = targetService.GetData().Head;
+            }
 			// Kamera ist aktiv
 			_isActive = true;
 		}

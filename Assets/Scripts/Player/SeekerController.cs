@@ -14,8 +14,9 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 	[SerializeField] private Canvas _droneUi;
 	[SerializeField] private GameObject _droneWinObj;
 	[SerializeField] private ParticleSystem _laserBeam;
+    [SerializeField] private AudioClip[] _freeeeeze;
 
-	private PropController.PlayerIndex _playerIndex = PropController.PlayerIndex.None;
+    private PropController.PlayerIndex _playerIndex = PropController.PlayerIndex.None;
 	private PlayerInput _inputModule = null;
 	private Rigidbody _playerRB = null;
 	private SeekerControls _controls = null;
@@ -88,7 +89,7 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 
 	public PropController.AxisUpdate GetData() => new PropController.AxisUpdate(_lookInput.x, _lookInput.y);
 
-	PropController.Target Service<PropController.Target>.GetData() => new PropController.Target(transform);
+	PropController.Target Service<PropController.Target>.GetData() => new PropController.Target(transform, transform);
 
 	#endregion
 
@@ -125,10 +126,14 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 			_recharging = false;
 			_uiAnimator.SetBool("recharging", false);
 		}
+        if(!_recharging && _energy == 3550)
+        {
+            AudioManager.Instance.PlayOneShot(AudioManager.AudioType.Sound, _freeeeeze[Random.Range(0, _freeeeeze.Length)], randomize: true);
+        }
 		Vector3 posNew;
 		if (_recharging)
 		{
-			if (Vector3.Distance(_rechargeStation.position, transform.position) >= 1f)
+			if (Vector3.Distance(_rechargeStation.position, transform.position) >= 0f)
 			{
 				posNew = Vector3.Lerp(_rechargeStation.position, transform.position, 1 - Time.deltaTime);
 			}
@@ -165,7 +170,8 @@ public class SeekerController : MonoBehaviour, Service<PropController.AxisUpdate
 	{
 		if (!GameManager.Instance.GameStarted)
 			return;
-		if (Vector3.Distance(_rechargeStation.position, transform.position) <= 1f)
+        _playerRB.velocity = Vector3.zero;
+		if (Vector3.Distance(_rechargeStation.position, transform.position) <= 2f)
 		{
 			if (_energy < 3600)
 			{
