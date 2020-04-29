@@ -1,5 +1,5 @@
 # Overview
-The game "Prop am Berg", created for the "SGJ 19/20" game jam.
+The game "Prop am Berg", created for the "SGJ WS 19/20" game jam.
 
 This is an asymmetrical, local multiplayer game inspired by "Prop Hunt"
 
